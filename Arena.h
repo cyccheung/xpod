@@ -10,8 +10,10 @@ Maximum size set as 27 long x 12 wide.
 class Arena {
 public:
     //Default constructor creates 9x6 arena
+    Arena();
 
     //Custom constructor creates specified arena
+    Arena(const int lengthIn, const int widthIn);
 private:
     int length; //Rows
     int width;  //Columns
