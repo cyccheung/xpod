@@ -135,19 +135,33 @@ void Unit::setBricks(const std::vector<int> &bricksIn) {
     bricks = bricksIn;
 }
 
-const int Unit::getLevelBricks(int x) const {
-    if(level == 1) {
-        return bricks01;
+const std::vector<int> Unit::getLevelBricks(int x) const {
+    std::vector<int> tempBricks;
+    //If going from level 0 to 1
+    if(x == 1) {
+        for(int i = 0; i < bricks01; ++i) {
+            tempBricks.push_back(bricks.at(i));
+        }
     }
-    else if(level == 2) {
-        return bricks12;
+    //If going from level 1 to 2
+    else if(x == 2) {
+        for(int i = 0; i < bricks12; ++i) {
+            tempBricks.push_back(bricks.at(i));
+        }
     }
-    else if(level == 3) {
-        return bricks23;
+    //If going from level 2 to 3
+    else if(x == 3) {
+        for(int i = 0; i < bricks23; ++i) {
+            tempBricks.push_back(bricks.at(i));
+        }
     }
+    //If going from level 3 to 4
     else {
-        return bricks34;
+        for(int i = 0; i < bricks34; ++i) {
+            tempBricks.push_back(bricks.at(i));
+        }
     }
+    return tempBricks;
 }
 
 const bool Unit::ifFrozen() {

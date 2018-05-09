@@ -157,7 +157,7 @@ public:
     void setBricks(const std::vector<int> &bricksIn);
 
     //Returns unit's bricks needed to go from level x-1 to x
-    const int getLevelBricks(int x) const;
+    const std::vector<int> getLevelBricks(int x) const;
 
     //Returns if unit is frozen or webbed
     const bool ifFrozen();
