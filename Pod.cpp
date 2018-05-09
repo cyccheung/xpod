@@ -10,10 +10,7 @@ implemented here as well
 Pod::Pod(const std::string nameIn) {
     //Set pod's name (i.e Aero, Auto...)
     factionName = nameIn;
-    //std::vector<int> tempInventory;
-    //tempInventory.push_back(0);
     inventory.push_back(0);
-    //TODO: Fill in inventory
     if(nameIn == "Aero") {
         inventory.push_back(1); //1
         inventory.push_back(1);
@@ -61,6 +58,12 @@ Pod::Pod(const std::string nameIn) {
         for(int i = 44; i < 77; ++i) {
             inventory.push_back(0);
         }
+
+        //Fill up plan sheet
+        AirCab unit1;
+        planSheet.push_back(unit1);
+        AirScout unit2;
+        planSheet.push_back(unit2);
     }
     else if(nameIn == "Auto") {
         inventory.push_back(1); //1
@@ -531,11 +534,19 @@ const void Pod::printInventory() const {
     std::cout << "\n";
 }
 
-void Pod::addBrick(const int partIndex) {
-    ++inventory.at(partIndex);
+std::vector<int> getInventory() const {
+    return inventory;
 }
 
-void Pod::removeBrick(const int partIndex) {
-    assert(inventory.at(partIndex) > 0);
-    --inventory.at(partIndex);
+void Pod::addBrick(const int brickIndex) {
+    ++inventory.at(brickIndex);
+}
+
+void Pod::removeBrick(const int brickIndex) {
+    assert(inventory.at(brickIndex) > 0);
+    --inventory.at(brickIndex);
+}
+
+const std::vector<Unit> getPlanSheet() const {
+    return planSheet;
 }
