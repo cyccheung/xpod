@@ -17,8 +17,8 @@ public:
     Player(const std:string pod_in)
         : pod(Pod(pod_in)) {}
 
-    //Function to figure out if player has enough pieces to build unit
-
+    //Function to figure out if player has enough bricks to build unit
+    bool enough
     //Function to build a unit, store it into inactiveUnits, and uses up bricks in pod
 
     //Function to activate a unit, moves it from inactiveUnits to units

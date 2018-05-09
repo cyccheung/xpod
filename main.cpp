@@ -9,11 +9,11 @@ Driver program for xpod project. This file does the following:
 */
 
 #include "Game.h"
-#include "Piece.h"
 #include "Pod.h"
 
 using namespace std;
 
 int main() {
+    //
     return 0;
 }

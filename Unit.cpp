@@ -127,26 +127,26 @@ void Unit::setDecon(const std::pair<int,int> &deconIn) {
     decon = deconIn;
 }
 
-const std::vector<int> Unit::getPieces() const {
-    return pieces;
+const std::vector<int> Unit::getBricks() const {
+    return bricks;
 }
 
-void Unit::setPieces(const std::vector<int> &piecesIn) {
-    pieces = piecesIn;
+void Unit::setBricks(const std::vector<int> &bricksIn) {
+    bricks = bricksIn;
 }
 
-const int Unit::getLevelPieces(int x) const {
+const int Unit::getLevelBricks(int x) const {
     if(level == 1) {
-        return pieces01;
+        return bricks01;
     }
     else if(level == 2) {
-        return pieces12;
+        return bricks12;
     }
     else if(level == 3) {
-        return pieces23;
+        return bricks23;
     }
     else {
-        return pieces34;
+        return bricks34;
     }
 }
 

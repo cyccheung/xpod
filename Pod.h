@@ -9,7 +9,6 @@ this game has an index from 1-43 (1-43 in code as well, index 0 will be 0 as pla
 As pieces are used and returned, this vector is updated as needed.
 */
 
-#include "Piece.h"
 #include <string>
 #include <vector>
 
@@ -29,10 +28,10 @@ public:
     const void printInventory() const;
 
     //Function to add specified piece into pod
-    void addPiece(const int partIndex);
+    void addBrick(const int partIndex);
 
     //Function to remove specified piece from pod
-    void removePiece(const int partIndex);
+    void removeBrick(const int partIndex);
 
     //Print plan sheet. Consider another method of printing out plan sheet
     //virtual const void printPlanSheet() const = 0;

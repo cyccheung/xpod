@@ -531,11 +531,11 @@ const void Pod::printInventory() const {
     std::cout << "\n";
 }
 
-void Pod::addPiece(const int partIndex) {
+void Pod::addBrick(const int partIndex) {
     ++inventory.at(partIndex);
 }
 
-void Pod::removePiece(const int partIndex) {
+void Pod::removeBrick(const int partIndex) {
     assert(inventory.at(partIndex) > 0);
     --inventory.at(partIndex);
 }

@@ -15,7 +15,7 @@ Maximum level
 An ordered vector of ints containing the part numbers max level unit is made up of, order
 of vector follows plan sheets
 Vectors of ints containing the number of parts needed to go between levels use these
-numbers to traverse pieces vector
+numbers to traverse bricks vector
 A vector of ints containing movement information in the following format:
 Move, Jump, Fly, Push
 (i.e) move 2 --> <2,0,0,0>
@@ -44,8 +44,8 @@ public:
         : Unit("Aircab", 2, 2, 2, 2, 0, 0) {
             std::vector<int> tempMove{0,0,1,0};
             setMove(tempMove);
-            std::vector<int> tempPieces{2,7,4,15};
-            setPieces(tempPieces);
+            std::vector<int> tempBricks{2,7,4,15};
+            setBricks(tempBricks);
             std::pair<int, int> tempDecon = std::make_pair(0,0);
             setDecon(tempDecon);
             std::vector<bool> tempAbility{false,true,false,false,false};
@@ -85,11 +85,11 @@ private:
 class Unit {
 public:
     //Constructor for Unit
-    Unit(std::string nameIn, int levelIn, int maxLevelIn, int pieces01In, int pieces12In,
-        int pieces23In, int pieces34In)
+    Unit(std::string nameIn, int levelIn, int maxLevelIn, int bricks01In, int bricks12In,
+        int bricks23In, int bricks34In)
         : name(nameIn), level(levelIn), maxLevel(maxLevelIn), frozen(false),
-        pieces01(pieces01In), pieces12(pieces12In), pieces23(pieces23In),
-        pieces34(pieces34In) {
+        bricks01(bricks01In), bricks12(bricks12In), bricks23(bricks23In),
+        bricks34(bricks34In) {
             std::pair<int,int> tempPosition = std::make_pair(0,0);
             position = tempPosition;
         }
@@ -150,14 +150,14 @@ public:
     //Returns unit's max level
     const int getMaxLevel() const;
 
-    //Returns pieces making up unit in a vector of ints
-    const std::vector<int> getPieces() const;
+    //Returns bricks making up unit in a vector of ints
+    const std::vector<int> getBricks() const;
 
-    //Sets pieces making up max level unit
-    void setPieces(const std::vector<int> &piecesIn);
+    //Sets bricks making up max level unit
+    void setBricks(const std::vector<int> &bricksIn);
 
-    //Returns unit's pieces needed to go from level x-1 to x
-    const int getLevelPieces(int x) const;
+    //Returns unit's bricks needed to go from level x-1 to x
+    const int getLevelBricks(int x) const;
 
     //Returns if unit is frozen or webbed
     const bool ifFrozen();
@@ -188,14 +188,14 @@ private:
     int maxLevel;               //Maximum level possible
     bool frozen;                //Whether unit has been frozen or webbed
     std::vector<int> movement;  //Described above
-    std::vector<int> pieces;    //Pieces making up max level unit
+    std::vector<int> bricks;    //Bricks making up max level unit
     std::vector<bool> ability; //Described above
     std::pair<int,int> decon;  //Deconstruct magnitude and range
     std::pair<int,int> position;    //Position on the arena
-    int pieces01;  //Number of pieces needed to go from level 0 to 1
-    int pieces12;  //Number of pieces needed to go from level 1 to 2
-    int pieces23;  //Number of pieces needed to go from level 2 to 3
-    int pieces34;  //Number of pieces needed to go from level 3 to 4
+    int bricks01;  //Number of bricks needed to go from level 0 to 1
+    int bricks12;  //Number of bricks needed to go from level 1 to 2
+    int bricks23;  //Number of bricks needed to go from level 2 to 3
+    int bricks34;  //Number of bricks needed to go from level 3 to 4
 };
 
 //----------------------------Aero Unit Declarations-------------------------------------
@@ -206,8 +206,8 @@ public:
         : Unit("AirCab", 2, 2, 2, 2, 0, 0) {
             std::vector<int> tempMove{0,0,1,0};
             setMove(tempMove);
-            std::vector<int> tempPieces{2,7,4,15};
-            setPieces(tempPieces);
+            std::vector<int> tempBricks{2,7,4,15};
+            setBricks(tempBricks);
             std::pair<int, int> tempDecon = std::make_pair(0,0);
             setDecon(tempDecon);
             std::vector<bool> tempAbility{false,true,false,false,false};
@@ -245,8 +245,8 @@ public:
         : Unit("AirScout", 2, 2, 1, 3, 0, 0) {
             std::vector<int> tempMove{0,0,1,0};
             setMove(tempMove);
-            std::vector<int> tempPieces{23,15,19,19};
-            setPieces(tempPieces);
+            std::vector<int> tempBricks{23,15,19,19};
+            setBricks(tempBricks);
             std::pair<int, int> tempDecon = std::make_pair(1,1);
             setDecon(tempDecon);
             std::vector<bool> tempAbility{false,false,false,false,false};
@@ -281,15 +281,15 @@ private:
 class Hoverall : public Unit {
 public:
     //Constructor creates unit of highest level
-    //Unit(std::string nameIn, int levelIn, int maxLevelIn, int pieces01In, int pieces12In,
-    //int pieces23In, int pieces34In)
+    //Unit(std::string nameIn, int levelIn, int maxLevelIn, int bricks01In, int bricks12In,
+    //int bricks23In, int bricks34In)
     Hoverall()
         : Unit("Hoverall", 3, 3, 3, 6, 2, 0) {
             //<move, jump, fly, push>
             std::vector<int> tempMove{0,2,0,0};
             setMove(tempMove);
-            std::vector<int> tempPieces{1,6,6,14,14,15,15,17,17,36,36};
-            setPieces(tempPieces);
+            std::vector<int> tempBricks{1,6,6,14,14,15,15,17,17,36,36};
+            setBricks(tempBricks);
             std::pair<int, int> tempDecon = std::make_pair(0,0);
             setDecon(tempDecon);
             //<Repair, Carry, Eat, Scare, Web>
