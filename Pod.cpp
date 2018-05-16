@@ -6,6 +6,7 @@ implemented here as well
 
 #include "Pod.h"
 #include <cassert>
+#include <iostream>
 
 Pod::Pod(const std::string nameIn) {
     //Set pod's name (i.e Aero, Auto...)
@@ -523,7 +524,7 @@ Pod::Pod(const std::string nameIn) {
     }
 }
 
-const std::string Pod::getname() const {
+const std::string Pod::getName() const {
     return factionName;
 }
 
@@ -534,7 +535,7 @@ const void Pod::printInventory() const {
     std::cout << "\n";
 }
 
-std::vector<int> getInventory() const {
+std::vector<int> Pod::getInventory() const {
     return inventory;
 }
 
@@ -547,6 +548,10 @@ void Pod::removeBrick(const int brickIndex) {
     --inventory.at(brickIndex);
 }
 
-const std::vector<Unit> getPlanSheet() const {
+void Pod::removeBrickSpecial(const int brickIndex) {
+    --inventory.at(brickIndex);
+}
+
+const std::vector<Unit> Pod::getPlanSheet() const {
     return planSheet;
 }

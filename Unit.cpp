@@ -18,6 +18,7 @@ const std::string Unit::getName() const {
 }
 
 const std::string Unit::getMove() const {
+    //Nothing complicated here, just lots of formatting
     for(int i = 0; i < (int)movement.size(); ++i) {
         if(i == 0 && (movement.at(i) != 0)) {
             return "move " + std::to_string(movement.at(i));
@@ -35,12 +36,11 @@ const std::string Unit::getMove() const {
     return "";
 }
 
+const std::vector<int> Unit::getMovement() const {
+    return movement;
+}
+
 void Unit::setMove(const std::vector<int> &movementIn) {
-    /*
-    for(int i = 0; i < (int)movement.size(); ++i) {
-        movement.at(i) = movementIn.at(i);
-    }
-    */
     movement = movementIn;
 }
 
@@ -57,6 +57,7 @@ const int Unit::getMaxLevel() const {
 }
 
 const std::string Unit::getAbility() const {
+    //Nothing complicated here, just lots of formatting
     std::string abilityOut;
     if(decon.first > 0) {
         abilityOut += "decon";
@@ -90,6 +91,10 @@ const std::string Unit::getAbility() const {
         }
     }
     return abilityOut;
+}
+
+const std::vector<bool> Unit::getAbilities() const {
+    return ability;
 }
 
 const bool Unit::ifDecon() const {
@@ -127,6 +132,10 @@ void Unit::setDecon(const std::pair<int,int> &deconIn) {
     decon = deconIn;
 }
 
+const std::pair<int,int> Unit::getDeconVect() const {
+    return decon;
+}
+
 const std::vector<int> Unit::getBricks() const {
     return bricks;
 }
@@ -135,39 +144,36 @@ void Unit::setBricks(const std::vector<int> &bricksIn) {
     bricks = bricksIn;
 }
 
-const std::vector<int> Unit::getLevelBricks(int x) const {
-    std::vector<int> tempBricks;
-    //If going from level 0 to 1
+const int Unit::getLevelBricks(int x) const {
     if(x == 1) {
-        for(int i = 0; i < bricks01; ++i) {
-            tempBricks.push_back(bricks.at(i));
-        }
+        return bricks01;
     }
-    //If going from level 1 to 2
     else if(x == 2) {
-        for(int i = 0; i < bricks12; ++i) {
-            tempBricks.push_back(bricks.at(i));
-        }
+        return bricks01 + bricks12;
     }
-    //If going from level 2 to 3
     else if(x == 3) {
-        for(int i = 0; i < bricks23; ++i) {
-            tempBricks.push_back(bricks.at(i));
-        }
+        return bricks01 + bricks12 + bricks23;
     }
-    //If going from level 3 to 4
-    else {
-        for(int i = 0; i < bricks34; ++i) {
-            tempBricks.push_back(bricks.at(i));
-        }
+    else if(x == 4) {
+        return bricks01 + bricks12 + bricks23 + bricks34;
     }
-    return tempBricks;
+    //Will never reach this statement, just to keep compiler quiet
+    return -1;
 }
 
-const bool Unit::ifFrozen() {
+const bool Unit::ifFrozen() const {
     return frozen;
 }
+/*
+virtual void Unit::getDecon() {
+    return;
+}
 
+//Function to repair unit
+virtual void Unit::getRepair() {
+    return;
+}
+*/
 void Unit::eat(Unit &unit) {
     //Unit being eaten must be level 1
     assert(unit.getLevel() == 1);
@@ -188,4 +194,15 @@ const std::pair<int,int> Unit::getPosition() const {
 void Unit::setPosition(int rowIn, int colIn) {
     std::pair<int,int> tempPos = std::make_pair(rowIn, colIn);
     position = tempPos;
+}
+
+bool operator==(const Unit &lhs, const Unit &rhs) {
+    //TODO: Two inactive units will have the same position and therefore equal
+    //according to this criteria below. Improve accordingly
+    if(lhs.getPosition() == rhs.getPosition()) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }

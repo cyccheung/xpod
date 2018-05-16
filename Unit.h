@@ -37,11 +37,11 @@ following order:
 Aero, Auto, Robo, Wild, Dragon, Monster, Arachno, Aqua
 
 Example constructor for unit
-class Aircab : public Unit {
+class AirCab : public Unit {
 public:
     //Constructor creates unit of highest level
-    Aircab()
-        : Unit("Aircab", 2, 2, 2, 2, 0, 0) {
+    AirCab()
+        : Unit("AirCab", 2, 2, 2, 2, 0, 0) {
             std::vector<int> tempMove{0,0,1,0};
             setMove(tempMove);
             std::vector<int> tempBricks{2,7,4,15};
@@ -54,23 +54,27 @@ public:
 
     //Deconstructs this unit
     void getDecon() {
-        --level;
-        if(level == 1) {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
             std::vector<int> tempMove{0,0,0,0};
             setMove(tempMove);
             std::vector<bool> tempAbility{false,false,false,false,false};
             setAbility(tempAbility);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
         }
     }
 
     //Repairs this unit
     void getRepair() {
-        ++level;
-        if(level == 2) {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
             std::vector<int> tempMove{0,0,1,0};
             setMove(tempMove);
             std::vector<bool> tempAbility{false,true,false,false,false};
             setAbility(tempAbility);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
         }
     }
 
@@ -84,6 +88,22 @@ private:
 
 class Unit {
 public:
+    //Default constructor for Unit
+    Unit()
+        : name("Default"), level(0), maxLevel(0), frozen(false), bricks01(0), bricks12(0),
+        bricks23(0), bricks34(0) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{0};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            std::vector<bool> tempAbility{false,false,false,false,false};
+            setAbility(tempAbility);
+            std::pair<int,int> tempPosition = std::make_pair(0,0);
+            position = tempPosition;
+        }
+
     //Constructor for Unit
     Unit(std::string nameIn, int levelIn, int maxLevelIn, int bricks01In, int bricks12In,
         int bricks23In, int bricks34In)
@@ -93,6 +113,49 @@ public:
             std::pair<int,int> tempPosition = std::make_pair(0,0);
             position = tempPosition;
         }
+/*
+    //Copy constructor
+    Unit(const Unit &other) {
+        name = other.getName();
+        level = other.getLevel();
+        maxLevel = other.getMaxLevel();
+        frozen = other.ifFrozen();
+        movement = other.getMovement();
+        bricks = other.getBricks();
+        ability = other.getAbilities();
+        decon = other.getDeconVect();
+        position = other.getPosition();
+        bricks01 = other.getLevelBricks(1);
+        bricks12 = other.getLevelBricks(2) - other.getLevelBricks(1);
+        bricks23 = other.getLevelBricks(3) - other.getLevelBricks(2) -
+        other.getLevelBricks(1);
+        bricks34 = other.getLevelBricks(4) - other.getLevelBricks(3) -
+        other.getLevelBricks(2) - other.getLevelBricks(1);
+    }
+*/
+    //Overload of assignment operator
+    Unit& operator=(const Unit &other) {
+        if(this == &other) {
+            return *this;
+        }
+        this->name = other.getName();
+        this->level = other.getLevel();
+        this->maxLevel = other.getMaxLevel();
+        this->frozen = other.ifFrozen();
+        this->movement = other.getMovement();
+        this->bricks = other.getBricks();
+        this->ability = other.getAbilities();
+        this->decon = other.getDeconVect();
+        this->position = other.getPosition();
+        this->bricks01 = other.getLevelBricks(1);
+        this->bricks12 = other.getLevelBricks(2) - other.getLevelBricks(1);
+        this->bricks23 = other.getLevelBricks(3) - other.getLevelBricks(2) -
+        other.getLevelBricks(1);
+        this->bricks34 = other.getLevelBricks(4) - other.getLevelBricks(3) - 
+        other.getLevelBricks(2) - other.getLevelBricks(1);
+        return *this;
+    }
+
 
     //Prints out unit's level and abilities in the following format:
     //Ability (Magnitude if not 1)
@@ -111,11 +174,17 @@ public:
     //Returns unit's move ability
     const std::string getMove() const;
 
+    //Returns unit's movement vector
+    const std::vector<int> getMovement() const;
+
     //Set unit's move ability
     void setMove(const std::vector<int> &movementIn);
 
     //Returns unit's abilities as a string
     const std::string getAbility() const;
+
+    //Returns unit's abilities as vector
+    const std::vector<bool> getAbilities() const;
 
     //Returns if unit can decon
     const bool ifDecon() const;
@@ -141,6 +210,9 @@ public:
     //Sets unit's decon ability
     void setDecon(const std::pair<int,int> &decon);
 
+    //Returns unit's decon pair
+    const std::pair<int,int> getDeconVect() const;
+
     //Returns unit's level
     const int getLevel() const;
 
@@ -157,17 +229,22 @@ public:
     void setBricks(const std::vector<int> &bricksIn);
 
     //Returns unit's bricks needed to go from level x-1 to x
-    const std::vector<int> getLevelBricks(int x) const;
+    //const std::vector<int> getLevelBricks(int x) const;
+    const int getLevelBricks(int x) const;
 
     //Returns if unit is frozen or webbed
-    const bool ifFrozen();
+    const bool ifFrozen() const;
 
     //Function to deconstruct unit. Does not care if unit is level 1, differentiation
     //is done later.
-    virtual void getDecon() = 0;
+    virtual void getDecon() {
+        return;
+    }
 
     //Function to repair unit
-    virtual void getRepair() = 0;
+    virtual void getRepair() {
+        return;
+    }
 
     //Function to eat input unit
     void eat(Unit &unit);
@@ -198,6 +275,9 @@ private:
     int bricks34;  //Number of bricks needed to go from level 3 to 4
 };
 
+//Overload of == operator. Differentiate units based on position.
+bool operator==(const Unit &lhs, const Unit &rhs);
+
 //----------------------------Aero Unit Declarations-------------------------------------
 class AirCab : public Unit {
 public:
@@ -210,6 +290,7 @@ public:
             setBricks(tempBricks);
             std::pair<int, int> tempDecon = std::make_pair(0,0);
             setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
             std::vector<bool> tempAbility{false,true,false,false,false};
             setAbility(tempAbility);
         }
@@ -249,6 +330,7 @@ public:
             setBricks(tempBricks);
             std::pair<int, int> tempDecon = std::make_pair(1,1);
             setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
             std::vector<bool> tempAbility{false,false,false,false,false};
             setAbility(tempAbility);
         }
@@ -259,8 +341,8 @@ public:
         if(getLevel() == 1) {
             std::vector<int> tempMove{0,0,0,0};
             setMove(tempMove);
-            std::vector<bool> tempAbility{false,false,false,false,false};
-            setAbility(tempAbility);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
         }
     }
 
@@ -335,6 +417,45 @@ private:
 };
 
 //----------------------------Auto Unit Declarations-------------------------------------
+class AirHorn : public Unit {
+public:
+    //Constructor creates unit of highest level
+    //Unit(std::string nameIn, int levelIn, int maxLevelIn, int bricks01In, int bricks12In,
+    //int bricks23In, int bricks34In)
+    AirHorn()
+        : Unit("Airhorn", 2, 2, 2, 3, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{2,21,5,14,33};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,2);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,false,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::pair<int, int> tempDecon = std::make_pair(1,2);
+            setDecon(tempDecon);
+        }
+    }
+
+private:
+};
 //----------------------------Robo Unit Declarations-------------------------------------
 //----------------------------Wild Unit Declarations-------------------------------------
 //----------------------------Dragon Unit Declarations-----------------------------------

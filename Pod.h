@@ -21,9 +21,6 @@ public:
     //Pod constructor creates a Pod with the name provided in the argument
     Pod(const std::string nameIn);
 
-    //Pod destructor deletes plan sheet
-    ~Pod();
-
     //Returns name of pod (i.e Aero)
     const std::string getName() const;
 
@@ -40,8 +37,13 @@ public:
     //Function to remove specified brick from pod
     void removeBrick(const int brickIndex);
 
+    //Special function that leaves out assert statement to make sure no quantity goes
+    //below 0. Used in Player.cpp to check if player has enough bricks to build a unit
+    void removeBrickSpecial(const int brickIndex);
+
     //Return plan sheet
     const std::vector<Unit> getPlanSheet() const;
+
 private:
     std::vector<int> inventory; //Vector of ints as inventory
     std::string factionName;    //Name of faction
