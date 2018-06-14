@@ -22,7 +22,7 @@ Move, Jump, Fly, Push
 (i.e) fly 3 --> <0,0,3,0>
 
 A vector of bools containing abilities in the following format:
-Repair, Carry, Eat, Scare, Web
+Repair, Carry, Eat, Web, Scare
 (i.e) Repair --> <1,0,0,0,0>
 (i.e) Repair, Eat --> <1,0,1,0,0>
 Only decon has a magnitude or range modifier (+1, R2...) so decon abilities are stored
@@ -100,7 +100,7 @@ public:
             setDecon(tempDecon);
             std::vector<bool> tempAbility{false,false,false,false,false};
             setAbility(tempAbility);
-            std::pair<int,int> tempPosition = std::make_pair(0,0);
+            std::pair<int,int> tempPosition = std::make_pair(-1,-1);
             position = tempPosition;
         }
 
@@ -110,7 +110,7 @@ public:
         : name(nameIn), level(levelIn), maxLevel(maxLevelIn), frozen(false),
         bricks01(bricks01In), bricks12(bricks12In), bricks23(bricks23In),
         bricks34(bricks34In) {
-            std::pair<int,int> tempPosition = std::make_pair(0,0);
+            std::pair<int,int> tempPosition = std::make_pair(-1,-1);
             position = tempPosition;
         }
 /*
@@ -151,7 +151,7 @@ public:
         this->bricks12 = other.getLevelBricks(2) - other.getLevelBricks(1);
         this->bricks23 = other.getLevelBricks(3) - other.getLevelBricks(2) -
         other.getLevelBricks(1);
-        this->bricks34 = other.getLevelBricks(4) - other.getLevelBricks(3) - 
+        this->bricks34 = other.getLevelBricks(4) - other.getLevelBricks(3) -
         other.getLevelBricks(2) - other.getLevelBricks(1);
         return *this;
     }
@@ -162,9 +162,16 @@ public:
     /* i.e
     AlphaBot Level 3:
     move 2, decon repair
+    Position: 3, 2
 
     ExtendoBot Level 2:
     move 1, decon R2
+    Position: 2, 5
+
+    ExtendoBot Level 2:
+    move 1, decon R2
+    Position: 3, 1
+    Frozen
     */
     const void printInfo() const;
 
@@ -173,6 +180,9 @@ public:
 
     //Returns unit's move ability
     const std::string getMove() const;
+
+    //Returns magnitude of unit's move ability
+    const int getMoveMagnitude() const;
 
     //Returns unit's movement vector
     const std::vector<int> getMovement() const;
@@ -249,8 +259,11 @@ public:
     //Function to eat input unit
     void eat(Unit &unit);
 
-    //Function to freeze input unit (scare and web)
-    void freeze(Unit &unit) const;
+    //Function to freeze this unit (scare and web)
+    void freeze();
+
+    //Function to unfreeze this unit
+    void unfreeze();
 
     //Function to get unit's position on arena
     const std::pair<int,int> getPosition() const;
@@ -275,8 +288,11 @@ private:
     int bricks34;  //Number of bricks needed to go from level 3 to 4
 };
 
-//Overload of == operator. Differentiate units based on position.
+//Overload of == operator. Differentiate units based on position
 bool operator==(const Unit &lhs, const Unit &rhs);
+
+//Overload of != operator. Differentiate units based on position
+bool operator!=(const Unit &lhs, const Unit &rhs);
 
 //----------------------------Aero Unit Declarations-------------------------------------
 class AirCab : public Unit {

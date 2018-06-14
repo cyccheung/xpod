@@ -11,6 +11,10 @@ Unit.cpp contains the implementations for the Unit functions.
 const void Unit::printInfo() const {
     std::cout << name << " Level " << level << ":\n";
     std::cout << getMove() << ", " << getAbility() << "\n";
+    std::cout << "Position: " << position.first << ", " << position.second << "\n";
+    if(frozen) {
+        std::cout << "Frozen\n";
+    }
 }
 
 const std::string Unit::getName() const {
@@ -34,6 +38,15 @@ const std::string Unit::getMove() const {
         }
     }
     return "";
+}
+
+const int Unit::getMoveMagnitude() const {
+    for(int i = 0; i < 4; ++i) {
+        if(movement.at(i) != 0) {
+            return movement.at(i);
+        }
+    }
+    return 0;
 }
 
 const std::vector<int> Unit::getMovement() const {
@@ -82,10 +95,10 @@ const std::string Unit::getAbility() const {
                 abilityOut += "eat";
             }
             else if(i == 3) {
-                abilityOut += "scare";
+                abilityOut += "web";
             }
             else if(i == 4) {
-                abilityOut += "web";
+                abilityOut += "scare";
             }
             abilityOut += " ";
         }
@@ -117,11 +130,11 @@ const bool Unit::ifEat() const {
 }
 
 const bool Unit::ifScare() const {
-    return ability.at(3);
+    return ability.at(4);
 }
 
 const bool Unit::ifWeb() const {
-    return ability.at(4);
+    return ability.at(3);
 }
 
 void Unit::setAbility(const std::vector<bool> &abilityIn) {
@@ -183,8 +196,12 @@ void Unit::eat(Unit &unit) {
     setLevel(getLevel() + 1);
 }
 
-void Unit::freeze(Unit &unit) const {
-    unit.frozen = true;
+void Unit::freeze() {
+    frozen = true;
+}
+
+void Unit::unfreeze() {
+    frozen = false;
 }
 
 const std::pair<int,int> Unit::getPosition() const {
@@ -200,6 +217,15 @@ bool operator==(const Unit &lhs, const Unit &rhs) {
     //TODO: Two inactive units will have the same position and therefore equal
     //according to this criteria below. Improve accordingly
     if(lhs.getPosition() == rhs.getPosition()) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+bool operator!=(const Unit &lhs, const Unit &rhs) {
+    if(lhs.getPosition() != rhs.getPosition()) {
         return true;
     }
     else {
