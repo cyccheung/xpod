@@ -24,11 +24,39 @@ const bool Player::enoughBricks(const Unit &unit) {
     return true;
 }
 
-const Pod Player::getPod() const {
+const bool Player::enoughBricksRepair(const Unit &unit, const int repairedLevel) {
+    //Use up bricks as if there are enough
+    for(int i = unit.getLevelBricks(repairedLevel - 1); i < unit.getLevelBricks(repairedLevel); ++i) {
+        pod.removeBrickSpecial(unit.getBricks().at(i));
+    }
+    //Loops through inventory to look for negative numbers, if found, not enough bricks
+    for(int i = 0; i < (int)unit.getBricks().size(); ++i) {
+        if(pod.getInventory().at(unit.getBricks().at(i)) < 0) {
+            //Add bricks back into inventory before returning
+            for(int i = unit.getLevelBricks(repairedLevel - 1); i < unit.getLevelBricks(repairedLevel); ++i) {
+                pod.addBrick(unit.getBricks().at(i));
+            }
+            return false;
+        }
+    }
+    //Add bricks back into inventory before returning
+    for(int i = unit.getLevelBricks(repairedLevel - 1); i < unit.getLevelBricks(repairedLevel); ++i) {
+        pod.addBrick(unit.getBricks().at(i));
+    }
+    //Otherwise return true
+    return true;
+}
+
+Pod Player::getPod() {
     return pod;
 }
 
-void Player::buildUnit(const std::string &unitName) {
+const std::string Player::getName() const {
+    return name;
+}
+
+void Player::buildUnit(const int index) {
+    /*
     //Create default unit
     Unit unit;
     //Figure out which constructor to call
@@ -40,6 +68,9 @@ void Player::buildUnit(const std::string &unitName) {
         AirScout tempUnit;
         unit = tempUnit;
     }
+    */
+    Unit unit;
+    unit = pod.getPlanSheet().at(index);
     //Use up appropriate bricks
     useBricks(unit);
     //Add unit to vector of inactive units
@@ -74,8 +105,12 @@ void Player::removeUnit(Unit &unit) {
     int index = findUnit(unit);
     //Remove unit from units vector if found, otherwise do nothing
     if(index >= 0) {
-        //Returns unit's bricks to inventory
-        returnBricks(unit);
+        for(int i = 0; i < unit.getLevel(); ++i) {
+            //Returns unit's bricks to inventory
+            returnBricks(unit);
+            //Lower's unit's level by one
+            unit.setLevel(unit.getLevel() - 1);
+        }
         //Removes unit from units vector
         units.erase(units.begin() + index);
     }
@@ -87,9 +122,15 @@ void Player::useBricks(const Unit &unit) {
     }
 }
 
+void Player::useBricks(const Unit &unit, const int levels) {
+    for(int i = unit.getLevelBricks(unit.getLevel()); i < unit.getLevelBricks(unit.getLevel() + levels); ++i) {
+        pod.removeBrick(unit.getBricks().at(i));
+    }
+}
+
 void Player::returnBricks(const Unit &unit) {
     std::vector<int> tempBricks;
-    for(int i = 0; i < unit.getLevelBricks(unit.getLevel()); ++i) {
+    for(int i = unit.getLevelBricks(unit.getLevel() - 1); i < unit.getLevelBricks(unit.getLevel()); ++i) {
         tempBricks.push_back(unit.getBricks().at(i));
     }
     for(int i = 0; i < (int)tempBricks.size(); ++i) {
@@ -97,15 +138,31 @@ void Player::returnBricks(const Unit &unit) {
     }
 }
 
-std::vector<Unit> Player::getUnits() {
+std::vector<Unit> Player::getUnits() const {
     return units;
+}
+
+void Player::printActive() const {
+    std::cout << "Active units:\n";
+    for(int i = 0; i < (int)units.size(); ++i) {
+        std::cout << "[" << i << "]\n";
+        units.at(i).printInfo();
+    }
+}
+
+void Player::printInactive() const {
+    std::cout << "Inactive units:\n";
+    for(int i = 0; i < (int)inactiveUnits.size(); ++i) {
+        std::cout << "[" << i << "]\n";
+        inactiveUnits.at(i).printInfo();
+    }
 }
 
 void Player::addUnit(const Unit &unit) {
     units.push_back(unit);
 }
 
-std::vector<Unit> Player::getInactiveUnits() {
+std::vector<Unit> Player::getInactiveUnits() const {
     return inactiveUnits;
 }
 
@@ -129,4 +186,27 @@ int Player::findUnit(const Unit &unit) {
         }
     }
     return -1;      //Return -1 if not found
+}
+
+const bool Player::duplicateUnits(const Unit &unit) {
+    //If any of the other units have the same name, return true
+    for(int i = 0; i < (int)units.size(); ++i) {
+        //Makes sure to not check itself
+        if(units.at(i).getName() == unit.getName() && units.at(i) != unit) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Player::printPlanSheet() {
+    for(int i = 0; i < (int)pod.getPlanSheet().size(); ++i) {
+        //If not enough bricks to build, add a *
+        if(!enoughBricks(pod.getPlanSheet().at(i))) {
+            std::cout << "*";
+        }
+        std::cout << "[" << i << "] ";
+        pod.getPlanSheet().at(i).printInfo();
+        std::cout << "\n";
+    }
 }

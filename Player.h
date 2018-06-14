@@ -21,11 +21,17 @@ public:
     //Function to figure out if player has enough bricks to build unit
     const bool enoughBricks(const Unit &unit);
 
-    //Returns player's pod
-    const Pod getPod() const;
+    //Function to figure out if player has enough bricks to repair unit from level x-1 to x
+    const bool enoughBricksRepair(const Unit &unit, const int repairedLevel);
 
-    //Function to build a unit and return it by reference
-    void buildUnit(const std::string &unitName);
+    //Returns player's pod
+    Pod getPod();
+
+    //Returns player's name
+    const std::string getName() const;
+
+    //Function to build a unit and add to player's inactiveUnits vector
+    void buildUnit(const int index);
 
     //Function to activate a unit, moves it from inactiveUnits to units
     void activateUnit(Unit &unit);
@@ -39,17 +45,26 @@ public:
     //Function to remove bricks from pod given a unit
     void useBricks(const Unit &unit);
 
-    //Function to return bricks making up unit to pod
+    //Function to remove bricks from pod for repairing. Uses only bricks required to level up
+    void useBricks(const Unit &unit, const int levels);
+
+    //Function to return bricks needed for input unit to go from current level-1 to current level
     void returnBricks(const Unit &unit);
 
     //Returns units vector
-    std::vector<Unit> getUnits();
+    std::vector<Unit> getUnits() const;
+
+    //Prints out active units and indices for selection
+    void printActive() const;
+
+    //Prints out inactive units and indices for selection
+    void printInactive() const;
 
     //Pushes input unit into player's units vector
     void addUnit(const Unit &unit);
 
     //Returns inactive units vector
-    std::vector<Unit> getInactiveUnits();
+    std::vector<Unit> getInactiveUnits() const;
 
     //Pushes input unit into player's inactive units vector
     void addInactiveUnit(const Unit &unit);
@@ -59,6 +74,12 @@ public:
 
     //Function that finds an active unit and returns index
     int findUnit(const Unit &unit);
+
+    //Function to determine if there is more than one of a unit type
+    const bool duplicateUnits(const Unit &unit);
+
+    //Print out plansheet, add a * in front of units that player do not have enough bricks for
+    void printPlanSheet();
 
 private:
     std::string name;   //Player's name
