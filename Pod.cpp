@@ -60,7 +60,7 @@ Pod::Pod(const std::string nameIn) {
             inventory.push_back(0);
         }
 
-        //Fill up plan sheet
+        //TODO: Fill up plan sheet
         AirCab unit1;
         planSheet.push_back(unit1);
         AirScout unit2;
