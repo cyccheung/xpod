@@ -208,9 +208,8 @@ const std::pair<int,int> Unit::getPosition() const {
     return position;
 }
 
-void Unit::setPosition(int rowIn, int colIn) {
-    std::pair<int,int> tempPos = std::make_pair(rowIn, colIn);
-    position = tempPos;
+void Unit::setPosition(const std::pair<int,int> &positionIn) {
+    position = positionIn;
 }
 
 bool operator==(const Unit &lhs, const Unit &rhs) {

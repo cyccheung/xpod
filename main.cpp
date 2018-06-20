@@ -12,6 +12,7 @@ Default position for units is -1,-1. 0,0 is the bottom left square
 using namespace std;
 
 int main() {
+    /*
     //Get player's names and pods they want to play with
     string player1Name;
     string player2Name;
@@ -33,30 +34,40 @@ int main() {
     cin >> rowIn;
     cout << "Arena Columns: ";
     cin >> colIn;
+    */
+    string player1Name = "Andy";
+    string player2Name = "Bob";
+    string player1Pod = "Aero";
+    string player2Pod = "Aero";
+    int rowIn = 9;
+    int colIn = 6;
 
     //Create Game object
     Game game(player1Name, player1Pod, player2Name, player2Pod, rowIn, colIn);
 
-    cout << "Game start:\n";
-
+    cout << "Game start:\n\n";
+    /*
     //Get player's choices for starter kit
     cout << "Player 1:\n";
     game.starterKit(game.getPlayer(1));
     cout << "Player 2:\n";
     game.starterKit(game.getPlayer(2));
-
+    */
     //If no one has 3 points yet, keep playing
     while(game.playerWin() == 0) {
+        cout << "------------------------------------------------\n";
         //Print out player's turn
-        cout << game.getActivePlayer()->getName() << "'s turn";
+        cout << game.getActivePlayer()->getName() << "'s turn\n\n";
         //Print out player's active units and inactive units
         game.getActivePlayer()->printActive();
+        cout << "\n";
         game.getActivePlayer()->printInactive();
-        cout << "Choose one of the following actions:\n[1]: Build\n[2]: Place\n[3]: Activate\n[4] Unfreeze\n[5]: Plansheet\n[6]: Board\n";
+        cout << "\nChoose one of the following actions:\n[1]: Build\n[2]: Place\n[3]: Activate\n[4]: Unfreeze\n[5]: Plansheet\n[6]: Board\n";
         //Variable to store player input
         int actionChoice;
         cin >> actionChoice;
         int choice;
+        cout << "------------------------------------------------\n";
         switch(actionChoice) {
             case 1 : {
                 //Print out plansheet
@@ -77,6 +88,7 @@ int main() {
                 game.getActivePlayer()->buildUnit(choice);
                 //End of turn
                 game.changeTurn();
+                break;
             }
             case 2 : {
                 //Print out inactive units
@@ -89,9 +101,11 @@ int main() {
                 //TODO: Check that position input is valid. No other units and in own home row
                 cin >> placeChoice.first >> placeChoice.second;
                 //Place unit
-                game.getActivePlayer()->getInactiveUnits().at(choice).setPosition(placeChoice.first, placeChoice.second);
+                game.getActivePlayer()->getInactiveUnit(choice)->setPosition(placeChoice);
+                game.getActivePlayer()->activateUnit(game.getActivePlayer()->getInactiveUnit(choice));
                 //End of turn
                 game.changeTurn();
+                break;
             }
             case 3 : {
                 //Print out active units
@@ -100,16 +114,20 @@ int main() {
                 cout << "Enter index of unit to activate:";
                 int unitChoice;
                 cin >> unitChoice;
-                while(game.getActivePlayer()->getUnits().at(unitChoice).ifFrozen()) {
-                    cout << game.getActivePlayer()->getUnits().at(unitChoice).getName() << " is frozen, choose another unit\n";
+                cout << "------------------------------------------------\n";
+                while(game.getActivePlayer()->getUnit(unitChoice)->ifFrozen()) {
+                    cout << game.getActivePlayer()->getUnit(unitChoice)->getName() << " is frozen, choose another unit\n";
                     cin >> unitChoice;
                 }
                 //Print out unit's available actions
-                game.printUnitActions(game.getActivePlayer()->getUnits().at(unitChoice));
+                game.printUnitActions(game.getActivePlayer()->getUnit(unitChoice));
+                cout << "\n";
                 //Enact actions
-                game.enactUnitActions(game.getActivePlayer()->getUnits().at(unitChoice));
+                //game.enactUnitActions(game.getActivePlayer()->getUnits().at(unitChoice));
+                game.enactUnitActions(game.getActivePlayer()->getUnit(unitChoice));
                 //End of turn
                 game.changeTurn();
+                break;
             }
             case 4 : {
                 //Print out active units
@@ -118,21 +136,25 @@ int main() {
                 cout << "Enter index of unit to unfreeze:";
                 cin >> choice;
                 //Unfreeze selected unit
-                game.unfreezeUnit(game.getActivePlayer()->getUnits().at(choice));
+                game.unfreezeUnit(game.getActivePlayer()->getUnit(choice));
                 //End of turn
                 game.changeTurn();
+                break;
             }
             case 5 : {
                 //Print plansheet
                 game.getActivePlayer()->printPlanSheet();
+                break;
                 //Do not change turn
             }
             case 6 : {
                 //Print out board
                 game.printBoard();
+                break;
                 //Do not change turn
-            }                
+            }
         }
+        cout << "\n";
         //Check for units in home row, increment score, and remove unit
         game.ifScored();
     }

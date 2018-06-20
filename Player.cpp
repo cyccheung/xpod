@@ -1,5 +1,4 @@
 #include "Player.h"
-#include <iostream>     //Debugging purposes
 
 const bool Player::enoughBricks(const Unit &unit) {
     //Use up bricks as if there are enough
@@ -47,8 +46,8 @@ const bool Player::enoughBricksRepair(const Unit &unit, const int repairedLevel)
     return true;
 }
 
-Pod Player::getPod() {
-    return pod;
+Pod* Player::getPod() {
+    return &pod;
 }
 
 const std::string Player::getName() const {
@@ -72,66 +71,66 @@ void Player::buildUnit(const int index) {
     Unit unit;
     unit = pod.getPlanSheet().at(index);
     //Use up appropriate bricks
-    useBricks(unit);
+    useBricks(&unit);
     //Add unit to vector of inactive units
     inactiveUnits.push_back(unit);
 }
 
-void Player::activateUnit(Unit &unit) {
+void Player::activateUnit(Unit* unitPtr) {
     //Adds unit to active units vector
-    units.push_back(unit);
+    units.push_back(*unitPtr);
     //Finds unit's index
-    int index = findInactiveUnit(unit);
+    int index = findInactiveUnit(unitPtr);
     //Remove unit from units vector if found, otherwise do nothing
     if(index >= 0) {
         inactiveUnits.erase(inactiveUnits.begin() + index);
     }
 }
 
-void Player::removeInactiveUnit(const Unit &unit) {
+void Player::removeInactiveUnit(Unit* unitPtr) {
     //Finds unit's index
-    int index = findInactiveUnit(unit);
+    int index = findInactiveUnit(unitPtr);
     //Remove unit from units vector if found, otherwise do nothing
     if(index >= 0) {
         //Returns unit's bricks to inventory
-        returnBricks(unit);
+        returnBricks(unitPtr);
         //Removes unit from inactive units vector
         inactiveUnits.erase(inactiveUnits.begin() + index);
     }
 }
 
-void Player::removeUnit(Unit &unit) {
+void Player::removeUnit(Unit* unitPtr) {
     //Finds unit's index
-    int index = findUnit(unit);
+    int index = findUnit(unitPtr);
     //Remove unit from units vector if found, otherwise do nothing
     if(index >= 0) {
-        for(int i = 0; i < unit.getLevel(); ++i) {
+        for(int i = 0; i < unitPtr->getLevel(); ++i) {
             //Returns unit's bricks to inventory
-            returnBricks(unit);
+            returnBricks(unitPtr);
             //Lower's unit's level by one
-            unit.setLevel(unit.getLevel() - 1);
+            unitPtr->setLevel(unitPtr->getLevel() - 1);
         }
         //Removes unit from units vector
         units.erase(units.begin() + index);
     }
 }
 
-void Player::useBricks(const Unit &unit) {
-    for(int i = 0; i < (int)unit.getBricks().size(); ++i) {
-        pod.removeBrick(unit.getBricks().at(i));
+void Player::useBricks(Unit* unitPtr) {
+    for(int i = 0; i < (int)unitPtr->getBricks().size(); ++i) {
+        pod.removeBrick(unitPtr->getBricks().at(i));
     }
 }
 
-void Player::useBricks(const Unit &unit, const int levels) {
-    for(int i = unit.getLevelBricks(unit.getLevel()); i < unit.getLevelBricks(unit.getLevel() + levels); ++i) {
-        pod.removeBrick(unit.getBricks().at(i));
+void Player::useBricks(Unit* unitPtr, const int levels) {
+    for(int i = unitPtr->getLevelBricks(unitPtr->getLevel()); i < unitPtr->getLevelBricks(unitPtr->getLevel() + levels); ++i) {
+        pod.removeBrick(unitPtr->getBricks().at(i));
     }
 }
 
-void Player::returnBricks(const Unit &unit) {
+void Player::returnBricks(Unit* unitPtr) {
     std::vector<int> tempBricks;
-    for(int i = unit.getLevelBricks(unit.getLevel() - 1); i < unit.getLevelBricks(unit.getLevel()); ++i) {
-        tempBricks.push_back(unit.getBricks().at(i));
+    for(int i = unitPtr->getLevelBricks(unitPtr->getLevel() - 1); i < unitPtr->getLevelBricks(unitPtr->getLevel()); ++i) {
+        tempBricks.push_back(unitPtr->getBricks().at(i));
     }
     for(int i = 0; i < (int)tempBricks.size(); ++i) {
         pod.addBrick(tempBricks.at(i));
@@ -140,6 +139,10 @@ void Player::returnBricks(const Unit &unit) {
 
 std::vector<Unit> Player::getUnits() const {
     return units;
+}
+
+Unit* Player::getUnit(const int index) {
+    return &(units.at(index));
 }
 
 void Player::printActive() const {
@@ -158,41 +161,45 @@ void Player::printInactive() const {
     }
 }
 
-void Player::addUnit(const Unit &unit) {
-    units.push_back(unit);
+void Player::addUnit(Unit* unitPtr) {
+    units.push_back(*unitPtr);
 }
 
 std::vector<Unit> Player::getInactiveUnits() const {
     return inactiveUnits;
 }
 
-void Player::addInactiveUnit(const Unit &unit) {
-    inactiveUnits.push_back(unit);
+Unit* Player::getInactiveUnit(const int index) {
+    return &(inactiveUnits.at(index));
 }
 
-int Player::findInactiveUnit(const Unit &unit) {
+void Player::addInactiveUnit(Unit* unitPtr) {
+    inactiveUnits.push_back(*unitPtr);
+}
+
+int Player::findInactiveUnit(Unit* unitPtr) {
     for(int i = 0; i < (int)inactiveUnits.size(); ++i) {
-        if(unit.getPosition() == inactiveUnits.at(i).getPosition()) {
+        if(unitPtr->getPosition() == inactiveUnits.at(i).getPosition()) {
             return i;
         }
     }
     return -1;      //Return -1 if not found
 }
 
-int Player::findUnit(const Unit &unit) {
+int Player::findUnit(Unit* unitPtr) {
     for(int i = 0; i < (int)units.size(); ++i) {
-        if(unit.getPosition() == units.at(i).getPosition()) {
+        if(unitPtr->getPosition() == units.at(i).getPosition()) {
             return i;
         }
     }
     return -1;      //Return -1 if not found
 }
 
-const bool Player::duplicateUnits(const Unit &unit) {
+const bool Player::duplicateUnits(Unit* unitPtr) {
     //If any of the other units have the same name, return true
     for(int i = 0; i < (int)units.size(); ++i) {
         //Makes sure to not check itself
-        if(units.at(i).getName() == unit.getName() && units.at(i) != unit) {
+        if(units.at(i).getName() == unitPtr->getName() && units.at(i) != *unitPtr) {
             return true;
         }
     }
@@ -209,4 +216,12 @@ void Player::printPlanSheet() {
         pod.getPlanSheet().at(i).printInfo();
         std::cout << "\n";
     }
+}
+
+void Player::setActivePosition(const int choice, const std::pair<int,int> &position) {
+    units.at(choice).setPosition(position);
+}
+
+void Player::setInactivePosition(const int choice, const std::pair<int,int> &position) {
+    inactiveUnits.at(choice).setPosition(position);
 }

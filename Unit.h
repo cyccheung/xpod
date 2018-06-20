@@ -270,7 +270,7 @@ public:
 
     //Function to set unit's position on arena. Used for all forms of movement action,
     //game figures out legal moves given unit's movement action.
-    void setPosition(int rowIn, int colIn);
+    void setPosition(const std::pair<int,int> &positionIn);
 
 private:
     std::string name;           //Unit's name

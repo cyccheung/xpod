@@ -44,6 +44,9 @@ public:
     //Return plan sheet
     const std::vector<Unit> getPlanSheet() const;
 
+    //Return pointer to unit from plan sheet
+    const Unit* getPlanSheetUnit(const int index) const;
+
 private:
     std::vector<int> inventory; //Vector of ints as inventory
     std::string factionName;    //Name of faction

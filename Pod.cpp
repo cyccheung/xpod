@@ -555,3 +555,7 @@ void Pod::removeBrickSpecial(const int brickIndex) {
 const std::vector<Unit> Pod::getPlanSheet() const {
     return planSheet;
 }
+
+const Unit* Pod::getPlanSheetUnit(const int index) const {
+    return &planSheet.at(index);
+}
