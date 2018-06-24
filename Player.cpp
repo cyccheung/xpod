@@ -55,30 +55,21 @@ const std::string Player::getName() const {
 }
 
 void Player::buildUnit(const int index) {
-    /*
-    //Create default unit
-    Unit unit;
-    //Figure out which constructor to call
-    if(unitName == "AirCab") {
-        AirCab tempUnit;
-        unit = tempUnit;
+    if(pod.getName() == "Aero") {
+        if(index == 0) {
+            AirCab* aircab = new AirCab;
+            inactiveUnits.push_back(aircab);
+        }
+        else if(index == 1) {
+            AirScout* airscout = new AirScout;
+            inactiveUnits.push_back(airscout);
+        }
     }
-    else if(unitName == "AirScout") {
-        AirScout tempUnit;
-        unit = tempUnit;
-    }
-    */
-    Unit unit;
-    unit = pod.getPlanSheet().at(index);
-    //Use up appropriate bricks
-    useBricks(&unit);
-    //Add unit to vector of inactive units
-    inactiveUnits.push_back(unit);
 }
 
 void Player::activateUnit(Unit* unitPtr) {
     //Adds unit to active units vector
-    units.push_back(*unitPtr);
+    units.push_back(unitPtr);
     //Finds unit's index
     int index = findInactiveUnit(unitPtr);
     //Remove unit from units vector if found, otherwise do nothing
@@ -137,19 +128,19 @@ void Player::returnBricks(Unit* unitPtr) {
     }
 }
 
-std::vector<Unit> Player::getUnits() const {
+std::vector<Unit*> Player::getUnits() const {
     return units;
 }
 
 Unit* Player::getUnit(const int index) {
-    return &(units.at(index));
+    return units.at(index);
 }
 
 void Player::printActive() const {
     std::cout << "Active units:\n";
     for(int i = 0; i < (int)units.size(); ++i) {
         std::cout << "[" << i << "]\n";
-        units.at(i).printInfo();
+        units.at(i)->printInfo();
     }
 }
 
@@ -157,29 +148,29 @@ void Player::printInactive() const {
     std::cout << "Inactive units:\n";
     for(int i = 0; i < (int)inactiveUnits.size(); ++i) {
         std::cout << "[" << i << "]\n";
-        inactiveUnits.at(i).printInfo();
+        inactiveUnits.at(i)->printInfo();
     }
 }
 
 void Player::addUnit(Unit* unitPtr) {
-    units.push_back(*unitPtr);
+    units.push_back(unitPtr);
 }
 
-std::vector<Unit> Player::getInactiveUnits() const {
+std::vector<Unit*> Player::getInactiveUnits() const {
     return inactiveUnits;
 }
 
 Unit* Player::getInactiveUnit(const int index) {
-    return &(inactiveUnits.at(index));
+    return inactiveUnits.at(index);
 }
 
 void Player::addInactiveUnit(Unit* unitPtr) {
-    inactiveUnits.push_back(*unitPtr);
+    inactiveUnits.push_back(unitPtr);
 }
 
 int Player::findInactiveUnit(Unit* unitPtr) {
     for(int i = 0; i < (int)inactiveUnits.size(); ++i) {
-        if(unitPtr->getPosition() == inactiveUnits.at(i).getPosition()) {
+        if(unitPtr == inactiveUnits.at(i)) {
             return i;
         }
     }
@@ -188,7 +179,7 @@ int Player::findInactiveUnit(Unit* unitPtr) {
 
 int Player::findUnit(Unit* unitPtr) {
     for(int i = 0; i < (int)units.size(); ++i) {
-        if(unitPtr->getPosition() == units.at(i).getPosition()) {
+        if(unitPtr == units.at(i)) {
             return i;
         }
     }
@@ -199,7 +190,7 @@ const bool Player::duplicateUnits(Unit* unitPtr) {
     //If any of the other units have the same name, return true
     for(int i = 0; i < (int)units.size(); ++i) {
         //Makes sure to not check itself
-        if(units.at(i).getName() == unitPtr->getName() && units.at(i) != *unitPtr) {
+        if(units.at(i)->getName() == unitPtr->getName() && units.at(i) != unitPtr) {
             return true;
         }
     }
@@ -219,9 +210,9 @@ void Player::printPlanSheet() {
 }
 
 void Player::setActivePosition(const int choice, const std::pair<int,int> &position) {
-    units.at(choice).setPosition(position);
+    units.at(choice)->setPosition(position);
 }
 
 void Player::setInactivePosition(const int choice, const std::pair<int,int> &position) {
-    inactiveUnits.at(choice).setPosition(position);
+    inactiveUnits.at(choice)->setPosition(position);
 }

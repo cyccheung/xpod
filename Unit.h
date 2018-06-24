@@ -85,6 +85,7 @@ private:
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 class Unit {
 public:
@@ -113,6 +114,9 @@ public:
             std::pair<int,int> tempPosition = std::make_pair(-1,-1);
             position = tempPosition;
         }
+
+    //Virtual destructor for Unit base class
+    virtual ~Unit() {}
 /*
     //Copy constructor
     Unit(const Unit &other) {
@@ -224,7 +228,7 @@ public:
     const std::pair<int,int> getDeconVect() const;
 
     //Returns unit's level
-    const int getLevel() const;
+    int getLevel() const;
 
     //Sets unit's level
     void setLevel(const int levelIn);
@@ -312,7 +316,7 @@ public:
         }
 
     //Deconstructs this unit
-    void getDecon() {
+    void getDecon() override {
         setLevel(getLevel() - 1);
         if(getLevel() == 1) {
             std::vector<int> tempMove{0,0,0,0};
@@ -323,7 +327,7 @@ public:
     }
 
     //Repairs this unit
-    void getRepair() {
+    void getRepair() override {
         setLevel(getLevel() + 1);
         if(getLevel() == 2) {
             std::vector<int> tempMove{0,0,1,0};

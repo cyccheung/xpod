@@ -56,6 +56,9 @@ int main() {
     //If no one has 3 points yet, keep playing
     while(game.playerWin() == 0) {
         cout << "------------------------------------------------\n";
+        //Print out scores
+        cout << game.getPlayer(1)->getName() << ": " << game.getScore(1) << " points\n";
+        cout << game.getPlayer(2)->getName() << ": " << game.getScore(2) << " points\n";
         //Print out player's turn
         cout << game.getActivePlayer()->getName() << "'s turn\n\n";
         //Print out player's active units and inactive units

@@ -368,7 +368,8 @@ void Game::unitSpecialActions(Unit* unitPtr) {
         std::cout << "Enter the position of the unit to carry:\n";
         printUnitsInRange(unitPtr, 1);
         std::cin >> positionChoice.first >> positionChoice.second;
-        //Ask where to put down carried unit after moving
+        //TODO: Ask where to put down carried unit after moving
+
     }
     else if(actionChoice == 2) {  //Eat
         std::cout << "Enter the position of the unit to eat:\n";
@@ -509,43 +510,43 @@ void Game::unfreezeUnit(Unit* unitPtr) {
     std::cout << unitPtr->getName() << " is unfrozen\n";
 }
 
-const bool Game::unitOnSquare(const std::pair<int,int> &position) const {
+const bool Game::unitOnSquare(const std::pair<int,int> &position) {
     //If there is a Player 1 unit
     for(int i = 0; i < (int)player1.getUnits().size(); ++i) {
-        if(player1.getUnits().at(i).getPosition() == position) {
+        if(player1.getUnit(i)->getPosition() == position) {
             return true;
         }
     }
     //If there is a Player 2 unit
     for(int i = 0; i < (int)player2.getUnits().size(); ++i) {
-        if(player2.getUnits().at(i).getPosition() == position) {
+        if(player2.getUnit(i)->getPosition() == position) {
             return true;
         }
     }
     return false;
 }
 
-const bool Game::player1UnitOnSquare(const std::pair<int,int> &position) const {
+const bool Game::player1UnitOnSquare(const std::pair<int,int> &position) {
     //If there is a Player 1 unit
     for(int i = 0; i < (int)player1.getUnits().size(); ++i) {
-        if(player1.getUnits().at(i).getPosition() == position) {
+        if(player1.getUnit(i)->getPosition() == position) {
             return true;
         }
     }
     return false;
 }
 
-const bool Game::player2UnitOnSquare(const std::pair<int,int> &position) const {
+const bool Game::player2UnitOnSquare(const std::pair<int,int> &position) {
     //If there is a Player 2 unit
     for(int i = 0; i < (int)player2.getUnits().size(); ++i) {
-        if(player2.getUnits().at(i).getPosition() == position) {
+        if(player2.getUnit(i)->getPosition() == position) {
             return true;
         }
     }
     return false;
 }
 
-const bool Game::emptySquare(const std::pair<int,int> &position) const {
+const bool Game::emptySquare(const std::pair<int,int> &position) {
     //If there is an obstacle
     if(!arena.openSquare(position)) {
         return false;
@@ -582,7 +583,7 @@ const bool Game::validSquare(Unit* unitPtr, const std::pair<int,int> &position) 
     return false;
 }
 
-const bool Game::validPath(Unit* unitPtr, const std::vector<std::pair<int,int> > &path) const {
+const bool Game::validPath(Unit* unitPtr, const std::vector<std::pair<int,int> > &path) {
     //Units with move
     if(unitPtr->getMove().at(0) != 0) {
         //Restriction: Cannot move through obstacles or other units
@@ -624,46 +625,53 @@ const bool Game::validPath(Unit* unitPtr, const std::vector<std::pair<int,int> >
 Unit* Game::getUnitAtPosition(std::pair<int,int> position) {
     //Search for unit in player 1's units vector
     for(int i = 0; i < (int)player1.getUnits().size(); ++i) {
-        if(player1.getUnits().at(i).getPosition() == position) {
-            return &player1.getUnits().at(i);
+        if(player1.getUnit(i)->getPosition() == position) {
+            return player1.getUnit(i);
         }
     }
     //Search for unit in player 2's units vector
     for(int i = 0; i < (int)player2.getUnits().size(); ++i) {
-        if(player2.getUnits().at(i).getPosition() == position) {
-            return &player2.getUnits().at(i);
+        if(player2.getUnit(i)->getPosition() == position) {
+            return player2.getUnit(i);
         }
     }
     //If not found, print error message and return default unit to please compiler
     std::cout << "Error: Unit not found. Returned default unit.\n";
     //TODO: Returns player 1's first unit but find a better solution
-    return &player1.getUnits().at(0);
+    return player1.getUnit(0);
     //return player1.getPod().getPlanSheet().at(0);
 }
 
 void Game::printUnitsInRange(Unit* unitPtr, const int range) {
     std::cout << player1.getName() << "'s units:\n";
     //Loop through all columns (if unit has move 2 and in column 4, check columns 2-6)
-    for(int i = unitPtr->getPosition().second - range; i < unitPtr->getPosition().second + range; ++i) {
+    for(int i = unitPtr->getPosition().second - range; i <= unitPtr->getPosition().second + range; ++i) {
         //Number of rows is whatever movement unit has remaining after moving columns
         //range - abs(unit.getPosition.second - i)) is the amount of movement the unit
         //still has after travelling to column i
-        for(int j = unitPtr->getPosition().first - (range - abs(unitPtr->getPosition().second - i)); unitPtr->getPosition().first + (range - abs(unitPtr->getPosition().second - i)); ++j) {
-            std::pair<int,int> tempPosition = std::make_pair(i,j);
-            if(player1UnitOnSquare(tempPosition) && (getUnitAtPosition(tempPosition) != unitPtr)) {
-                std::cout << getUnitAtPosition(tempPosition)->getName() << " (" << getUnitAtPosition(tempPosition)->getPosition().first << ", " << getUnitAtPosition(tempPosition)->getPosition().second << ")\n";
+        for(int j = unitPtr->getPosition().first - (range - abs(unitPtr->getPosition().second - i)); j <= unitPtr->getPosition().first + (range - abs(unitPtr->getPosition().second - i)); ++j) {
+            //std::cout << "2\n";
+            //Check that position is in the arena
+            if((i < arena.getColumns() || i >= 0) && ((j < arena.getRows() || j >= 0))) {
+                std::pair<int,int> tempPosition = std::make_pair(i,j);
+                if(player1UnitOnSquare(tempPosition) && (getUnitAtPosition(tempPosition) != unitPtr)) {
+                    std::cout << getUnitAtPosition(tempPosition)->getName() << " (" << getUnitAtPosition(tempPosition)->getPosition().first << ", " << getUnitAtPosition(tempPosition)->getPosition().second << ")\n";
+                }
             }
         }
     }
     std::cout << player2.getName() << "'s units:\n";
-    for(int i = unitPtr->getPosition().second - range; i < unitPtr->getPosition().second + range; ++i) {
+    for(int i = unitPtr->getPosition().second - range; i <= unitPtr->getPosition().second + range; ++i) {
         //Number of rows is whatever movement unit has remaining after moving columns
         //range - abs(unit.getPosition.second - i)) is the amount of movement the unit
         //still has after travelling to column i
-        for(int j = unitPtr->getPosition().first - (range - abs(unitPtr->getPosition().second - i)); unitPtr->getPosition().first + (range - abs(unitPtr->getPosition().second - i)); ++j) {
-            std::pair<int,int> tempPosition = std::make_pair(i,j);
-            if(player2UnitOnSquare(tempPosition) && (getUnitAtPosition(tempPosition) != unitPtr)) {
-                std::cout << getUnitAtPosition(tempPosition)->getName() << " (" << getUnitAtPosition(tempPosition)->getPosition().first << ", " << getUnitAtPosition(tempPosition)->getPosition().second << ")\n";
+        for(int j = unitPtr->getPosition().first - (range - abs(unitPtr->getPosition().second - i)); j <= unitPtr->getPosition().first + (range - abs(unitPtr->getPosition().second - i)); ++j) {
+            //Check that position is in the arena
+            if((i < arena.getColumns() || i >= 0) && ((j < arena.getRows() || j >= 0))) {
+                std::pair<int,int> tempPosition = std::make_pair(i,j);
+                if(player2UnitOnSquare(tempPosition) && (getUnitAtPosition(tempPosition) != unitPtr)) {
+                    std::cout << getUnitAtPosition(tempPosition)->getName() << " (" << getUnitAtPosition(tempPosition)->getPosition().first << ", " << getUnitAtPosition(tempPosition)->getPosition().second << ")\n";
+                }
             }
         }
     }
@@ -703,6 +711,10 @@ void Game::printUnitsEat(Unit* unitPtr) {
 }
 
 const bool Game::ifWithinRange(Unit* unitPtr1, Unit* unitPtr2, const int range) {
+    //If comparing the same unit, return false
+    if(unitPtr1 == unitPtr2) {
+        return false;
+    }
     //Distance between 2,2 and 3,3 is abs(2-3) + abs(2-3) = 2
     int totalDifference = abs(unitPtr1->getPosition().first - unitPtr2->getPosition().first) + abs(unitPtr1->getPosition().second - unitPtr2->getPosition().second);
     if(totalDifference > range) {
@@ -829,4 +841,14 @@ const int Game::playerWin() const {
         return 2;
     }
     return 0;
+}
+
+const int Game::getScore(const int playerIndex) const {
+    if(playerIndex == 1) {
+        return player1Score;
+    }
+    else if(playerIndex == 2) {
+        return player2Score;
+    }
+    return -1;
 }

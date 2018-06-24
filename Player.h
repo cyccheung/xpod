@@ -19,6 +19,16 @@ public:
     Player(const std::string nameIn, const std::string pod_in)
         : name(nameIn), pod(Pod(pod_in)) {}
 
+    //Player destructor destroys units and inactive units
+    ~Player() {
+        for(int i = 0; i < (int)units.size(); ++i) {
+            delete units.at(i);
+        }
+        for(int i = 0; i < (int)inactiveUnits.size(); ++i) {
+            delete inactiveUnits.at(i);
+        }
+    }
+
     //Function to figure out if player has enough bricks to build unit
     const bool enoughBricks(const Unit &unit);
 
@@ -53,7 +63,7 @@ public:
     void returnBricks(Unit* unitPtr);
 
     //Returns units vector
-    std::vector<Unit> getUnits() const;
+    std::vector<Unit*> getUnits() const;
 
     //Returns pointer to active unit by index
     Unit* getUnit(const int index);
@@ -68,7 +78,7 @@ public:
     void addUnit(Unit* unitPtr);
 
     //Returns inactive units vector
-    std::vector<Unit> getInactiveUnits() const;
+    std::vector<Unit*> getInactiveUnits() const;
 
     //Returns pointer to inactive unit by index
     Unit* getInactiveUnit(const int index);
@@ -97,6 +107,6 @@ public:
 private:
     std::string name;   //Player's name
     Pod pod;        //Player's pod
-    std::vector<Unit> units;    //Player's active units
-    std::vector<Unit> inactiveUnits;    //Units that player has yet to place on board
+    std::vector<Unit*> units;    //Player's active units
+    std::vector<Unit*> inactiveUnits;    //Units that player has yet to place on board
 };

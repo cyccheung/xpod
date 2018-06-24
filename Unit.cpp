@@ -57,7 +57,7 @@ void Unit::setMove(const std::vector<int> &movementIn) {
     movement = movementIn;
 }
 
-const int Unit::getLevel() const {
+int Unit::getLevel() const {
     return level;
 }
 
@@ -158,7 +158,10 @@ void Unit::setBricks(const std::vector<int> &bricksIn) {
 }
 
 const int Unit::getLevelBricks(int x) const {
-    if(x == 1) {
+    if(x == 0) {
+        return 0;
+    }
+    else if(x == 1) {
         return bricks01;
     }
     else if(x == 2) {

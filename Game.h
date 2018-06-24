@@ -86,22 +86,22 @@ public:
     void unfreezeUnit(Unit* unitPtr);
 
     //Returns if position square has a unit or obstacle on it
-    const bool emptySquare(const std::pair<int,int> &position) const;
+    const bool emptySquare(const std::pair<int,int> &position);
 
     //Returns if position square has a unit on it
-    const bool unitOnSquare(const std::pair<int,int> &position) const;
+    const bool unitOnSquare(const std::pair<int,int> &position);
 
     //Returns if position square has a player 1 unit on it
-    const bool player1UnitOnSquare(const std::pair<int,int> &position) const;
+    const bool player1UnitOnSquare(const std::pair<int,int> &position);
 
     //Returns if position square has a player 2 unit on it
-    const bool player2UnitOnSquare(const std::pair<int,int> &position) const;
+    const bool player2UnitOnSquare(const std::pair<int,int> &position);
 
     //Returns if position square is a valid square for given unit
     const bool validSquare(Unit* unitPtr, const std::pair<int,int> &position);
 
     //Returns if path is a valid path for unit to move along
-    const bool validPath(Unit* unitPtr, const std::vector<std::pair<int,int> > &path) const;
+    const bool validPath(Unit* unitPtr, const std::vector<std::pair<int,int> > &path);
 
     //Returns pointer to unit at a position by reference
     Unit* getUnitAtPosition(std::pair<int,int> position);
@@ -140,6 +140,9 @@ public:
     //Function to determine if a player has won (3 points or more)
     //Returns 0 if nobody has won yet, 1 if player 1 wins, 2 if player 2 wins
     const int playerWin() const;
+
+    //Returns player's score
+    const int getScore(const int playerIndex) const;
 
 private:
     Player player1;
