@@ -449,30 +449,72 @@ void Game::pushUnit(Unit* unitPtr, std::vector<std::pair<int,int> > path, Unit* 
         int colDiff = path.at(i).second - unitPtr->getPosition().second;
         //Calculate position where a pushed unit would go if one exists
         std::pair<int,int> pushedUnitPosition = std::make_pair(path.at(i).first + rowDiff, path.at(i).second + colDiff);
+        //If destination is invalid, do nothing. For unit at end of row
+        if(!unitOnSquare(path.at(i)) && !validSquare(unitPtr, path.at(i))) {}
         //If there are no units in the way, move as per normal
-        if(!unitOnSquare(path.at(i))) {
+        else if(!unitOnSquare(path.at(i))) {
+            //std::cout << "First case: " << unitPtr->getName() << "\n";
             unitPtr->setPosition(path.at(i));
         }
+        //If there is a unit in the way
+        else if(unitOnSquare(path.at(i))) {
+            //See if the row of units is movable
+            bool movable = true;
+            //Start variable at where unit being directly pushed would be if there was nothing in the way
+            std::pair<int,int> tempPushedUnitPosition = pushedUnitPosition;
+            //Loop through all the units in the row to find the position of the unit at the end
+            while(unitOnSquare(tempPushedUnitPosition)) {
+                //Increment tempPushedUnitPosition to next position
+                tempPushedUnitPosition.first += rowDiff;
+                tempPushedUnitPosition.second += colDiff;
+            }
+            //Calculate where unit being pushed would be pushed to
+            std::pair<int,int> lastUnitPosition = std::make_pair(tempPushedUnitPosition.first - rowDiff, tempPushedUnitPosition.second - colDiff);
+            //If unit being pushed cannot be pushed further (edge of arena or obstacle for non flying units)
+            if(!validSquare(getUnitAtPosition(lastUnitPosition), tempPushedUnitPosition)) {
+                movable = false;
+                //std::cout << "Here\n";
+            }
+            //If row is movable, move entire row
+            if(movable) {
+                //std::cout << "Second case: " << unitPtr->getName() << "\n";
+                //Create vector to pass into push of pushed unit
+                std::vector<std::pair<int,int> > tempPath;
+                tempPath.push_back(pushedUnitPosition);
+                //Call push on unit being pushed, and keep the same pusher parameter
+                pushUnit(getUnitAtPosition(path.at(i)), tempPath, pusher);
+                //Move pushing unit
+                unitPtr->setPosition(path.at(i));
+            }
+            //If row is not movable, decon everything in row except pusher
+            else {
+                //std::cout << "Third case: " << unitPtr->getName() << "\n";
+                //Deconstruct unit in the way
+                deconUnit(getUnitAtPosition(path.at(i)), getUnitPlayer(getUnitAtPosition(path.at(i))));
+                //Create vector to pass into push of pushed unit
+                std::vector<std::pair<int,int> > tempPath;
+                tempPath.push_back(pushedUnitPosition);
+                //Call push on unit being pushed to deconstruct recursively
+                pushUnit(getUnitAtPosition(path.at(i)), tempPath, pusher);
+                /*
+                //Deconstruct this unit if this unit is not the original pusher
+                if(unitPtr != pusher) {
+                    deconUnit(unitPtr, getUnitPlayer(unitPtr));
+                }
+                */
+                //Do not move any of the units
+            }
+        }
+        /*
         //If there is a unit in the way and nothing beyond, recursively call push on unit being pushed
         else if(unitOnSquare(path.at(i)) && !arena.edgeOfMap(pushedUnitPosition) && arena.openSquare(pushedUnitPosition)) {
-            //Create vector to pass into push of pushed unit
-            std::vector<std::pair<int,int> > tempPath;
-            tempPath.push_back(pushedUnitPosition);
-            //Call push on unit being pushed, and keep the same pusher parameter
-            pushUnit(getUnitAtPosition(path.at(i)), tempPath, pusher);
-            //Move pushing unit
-            unitPtr->setPosition(path.at(i));
+
         }
         //If there is a unit in the way and the edge of the map or an obstacle in the way
         else if(unitOnSquare(path.at(i)) && (arena.edgeOfMap(pushedUnitPosition) || !arena.openSquare(pushedUnitPosition))) {
-            //Deconstruct unit in the way
-            deconUnit(getUnitAtPosition(path.at(i)), getUnitPlayer(getUnitAtPosition(path.at(i))));
-            //Deconstruct this unit if this unit is not the original pusher
-            if(unitPtr != pusher) {
-                deconUnit(unitPtr, getUnitPlayer(unitPtr));
-            }
-            //Do not move any of the units
+
         }
+        */
     }
 }
 
@@ -560,6 +602,10 @@ const bool Game::emptySquare(const std::pair<int,int> &position) {
 }
 
 const bool Game::validSquare(Unit* unitPtr, const std::pair<int,int> &position) {
+    //Cannot be outside arena
+    if(!arena.inArena(position)) {
+        return false;
+    }
     //If unit flies
     if(unitPtr->getMovement().at(2) != 0) {
         //Cannot land on other units
@@ -638,7 +684,8 @@ Unit* Game::getUnitAtPosition(std::pair<int,int> position) {
     //If not found, print error message and return default unit to please compiler
     std::cout << "Error: Unit not found. Returned default unit.\n";
     //TODO: Returns player 1's first unit but find a better solution
-    return player1.getUnit(0);
+    //return player1.getUnit(0);
+    return nullptr;
     //return player1.getPod().getPlanSheet().at(0);
 }
 
