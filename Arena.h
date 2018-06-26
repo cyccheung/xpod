@@ -48,6 +48,9 @@ public:
     //Returns numbers of columns
     int getColumns() const;
 
+    //Returns if position is inside the arena
+    const bool inArena(const std::pair<int,int> &position) const;
+
 private:
     int length; //Rows
     int width;  //Columns

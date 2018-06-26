@@ -78,3 +78,10 @@ int Arena::getRows() const {
 int Arena::getColumns() const {
     return width;
 }
+
+const bool Arena::inArena(const std::pair<int,int> &position) const {
+    if(position.first < 0 || position.first >= length || position.second < 0 || position.second >= width) {
+        return false;
+    }
+    return true;
+}
