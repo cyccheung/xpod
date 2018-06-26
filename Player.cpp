@@ -65,6 +65,12 @@ void Player::buildUnit(const int index) {
             inactiveUnits.push_back(airscout);
         }
     }
+    else if(pod.getName() == "Auto") {
+        if(index == 0) {
+            Dozer* dozer = new Dozer;
+            inactiveUnits.push_back(dozer);
+        }
+    }
 }
 
 void Player::activateUnit(Unit* unitPtr) {
@@ -85,6 +91,7 @@ void Player::removeInactiveUnit(Unit* unitPtr) {
     if(index >= 0) {
         //Returns unit's bricks to inventory
         returnBricks(unitPtr);
+        delete inactiveUnits.at(index);
         //Removes unit from inactive units vector
         inactiveUnits.erase(inactiveUnits.begin() + index);
     }
@@ -101,6 +108,7 @@ void Player::removeUnit(Unit* unitPtr) {
             //Lower's unit's level by one
             unitPtr->setLevel(unitPtr->getLevel() - 1);
         }
+        delete units.at(index);
         //Removes unit from units vector
         units.erase(units.begin() + index);
     }
