@@ -3201,6 +3201,902 @@ public:
 private:
 };
 //----------------------------Wild Unit Declarations-------------------------------------
+class Ant : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Ant()
+        : Unit("Ant", 1, 2, 0, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{14,36};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,false,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+    }
+private:
+};
+
+class BabyGiantSquid : public Unit {
+public:
+    //Constructor creates unit of highest level
+    BabyGiantSquid()
+        : Unit("Baby Giant Squid", 2, 5, 1, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{3,14,14,36,36,26};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+        }
+    }
+private:
+};
+
+class BabyRattler : public Unit {
+public:
+    //Constructor creates unit of highest level
+    BabyRattler()
+        : Unit("Baby Rattler", 2, 2, 1, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{11,19,40};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+        }
+    }
+private:
+};
+
+class BarnOwl : public Unit {
+public:
+    //Constructor creates unit of highest level
+    BarnOwl()
+        : Unit("Barn Owl", 2, 2, 5, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{0,0,2,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{2,15,16,16,19,19,23};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,true,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{0,0,2,0};
+            setMove(tempMove);
+            std::vector<bool> tempAbility{false,true,true,false,false};
+            setAbility(tempAbility);
+        }
+    }
+private:
+};
+
+class Bullfrog : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Bullfrog()
+        : Unit("Bullfrog", 3, 5, 2, 1, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{0,2,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{3,13,26,36,36,13,25,15};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+        }
+        else if(getLevel() == 2) {
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+        }
+        else if(getLevel() == 3) {
+            std::vector<int> tempMove{0,2,0,0};
+            setMove(tempMove);
+        }
+    }
+private:
+};
+
+class Chimp : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Chimp()
+        : Unit("Chimp", 3, 4, 4, 2, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{0,2,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{3,6,11,26,14,14,15,15,11,11};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,true,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+        }
+        else if(getLevel() == 2) {
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{0,2,0,0};
+            setMove(tempMove);
+        }
+        else if(getLevel() == 3) {
+            std::vector<bool> tempAbility{false,true,true,false,false};
+            setAbility(tempAbility);
+        }
+    }
+private:
+};
+
+class Croc : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Croc()
+        : Unit("Croc", 3, 5, 5, 1, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{14,15,24,36,36,2,11,11,19,19,2};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+        }
+        else if(getLevel() == 2) {}
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+        }
+        else if(getLevel() == 3) {}
+    }
+private:
+};
+
+class Flea : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Flea()
+        : Unit("Flea", 2, 3, 7, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{0,3,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{11,13,25,13,39,39,36,36,40,40};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{0,3,0,0};
+            setMove(tempMove);
+        }
+    }
+private:
+};
+
+class Gorilla : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Gorilla()
+        : Unit("Gorilla", 3, 5, 5, 4, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{2,11,36,36,26,11,14,14,15,15,11,11,19,19};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,true,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+        }
+        else if(getLevel() == 2) {
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+        }
+        else if(getLevel() == 3) {
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            std::vector<bool> tempAbility{false,true,true,false,false};
+            setAbility(tempAbility);
+        }
+    }
+private:
+};
+
+class Kanga : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Kanga()
+        : Unit("Kanga", 3, 6, 6, 3, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{0,2,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{2,13,15,17,17,23,7,11,15,15,14,14,11,19,19};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,true,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+        }
+        else if(getLevel() == 2) {
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{0,2,0,0};
+            setMove(tempMove);
+        }
+        else if(getLevel() == 3) {
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            std::vector<bool> tempAbility{false,true,true,false,false};
+            setAbility(tempAbility);
+        }
+    }
+private:
+};
+
+class KingCrab : public Unit {
+public:
+    //Constructor creates unit of highest level
+    KingCrab()
+        : Unit("King Crab", 3, 5, 4, 2, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{6,14,14,40,40,11,11,11,11,16,16};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+        }
+        else if(getLevel() == 2) {
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+        }
+        else if(getLevel() == 3) {
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+        }
+    }
+private:
+};
+
+class Ladybug : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Ladybug()
+        : Unit("Ladybug", 2, 1, 4, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{0,0,2,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{11,16,16,36,36};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{0,0,2,0};
+            setMove(tempMove);
+        }
+    }
+private:
+};
+
+class Mantis : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Mantis()
+        : Unit("Mantis", 2, 2, 5, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{2,3,13,15,15,36,36};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+        }
+    }
+private:
+};
+
+class Minnow : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Minnow()
+        : Unit("Minnow", 1, 2, 0, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{24,36};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,false,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+    }
+private:
+};
+
+class Moth : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Moth()
+        : Unit("Moth", 2, 5, 2, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{0,0,2,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{13,39,39,36,36,17,17};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{0,0,2,0};
+            setMove(tempMove);
+        }
+    }
+private:
+};
+
+class PoisonMushroom : public Unit {
+public:
+    //Constructor creates unit of highest level
+    PoisonMushroom()
+        : Unit("Poison Mushroom", 1, 4, 0, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{36,36,36,39};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,false,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+    }
+private:
+};
+
+class Rattler : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Rattler()
+        : Unit("Rattler", 2, 2, 2, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{11,19,11,40};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+        }
+    }
+private:
+};
+
+class Scorpion : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Scorpion()
+        : Unit("Scorpion", 2, 3, 1, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{11,14,15,13};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+        }
+    }
+private:
+};
+
+class Spider : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Spider()
+        : Unit("Spider", 2, 4, 4, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{2,15,36,36,14,14,14,14};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+        }
+    }
+private:
+};
+
+class StingingAnt : public Unit {
+public:
+    //Constructor creates unit of highest level
+    StingingAnt()
+        : Unit("Stinging Ant", 1, 3, 0, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{14,36,40};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(1,1);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,false,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+    }
+private:
+};
+
+class Tadpole : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Tadpole()
+        : Unit("Tadpole", 1, 2, 0, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{1,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{14,36};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,false,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+    }
+private:
+};
+
+class Treefrog : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Treefrog()
+        : Unit("Treefrog", 2, 4, 3, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{0,2,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{3,6,36,36,14,14,26};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{0,2,0,0};
+            setMove(tempMove);
+        }
+    }
+private:
+};
+
+class Turtle : public Unit {
+public:
+    //Constructor creates unit of highest level
+    Turtle()
+        : Unit("Turtle", 2, 2, 1, 0, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{2,15,11};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,true,true,false,false};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::vector<bool> tempAbility{false,false,true,false,false};
+            setAbility(tempAbility);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+            std::vector<bool> tempAbility{false,true,true,false,false};
+            setAbility(tempAbility);
+        }
+    }
+private:
+};
 //----------------------------Dragon Unit Declarations-----------------------------------
 //----------------------------Monster Unit Declarations----------------------------------
 //----------------------------Arachno Unit Declarations----------------------------------
