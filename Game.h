@@ -39,6 +39,9 @@ public:
     //Function to display board with units
     void printBoard();
 
+    //Adds obstacle to arena at input position
+    void addObstacle(const std::pair<int,int> &position);
+
     //Function to return player member variables
     Player* getPlayer(const int playerNumber);
 
@@ -102,6 +105,9 @@ public:
 
     //Returns if path is a valid path for unit to move along
     const bool validPath(Unit* unitPtr, const std::vector<std::pair<int,int> > &path);
+
+    //Returns if a unit can be pushed into a position
+    const bool pushable(Unit* unitPtr, const std::pair<int,int> &position);
 
     //Returns pointer to unit at a position by reference
     Unit* getUnitAtPosition(std::pair<int,int> position);

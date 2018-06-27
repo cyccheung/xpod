@@ -34,6 +34,9 @@ public:
     //Returns vector of obstacles
     std::vector<std::pair<int, int> > getObstacles() const;
 
+    //Adds obstacle at input position
+    void addObstacle(const std::pair<int,int> &position);
+
     //Returns whether or not position is an opponent home row. player input parameter
     //is the player whose turn it is, is true if player 1, false if player 2
     const bool ifHome(const std::pair<int,int> &position, const bool player);

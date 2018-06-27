@@ -41,6 +41,10 @@ std::vector<std::pair<int, int> > Arena::getObstacles() const {
     return obstacles;
 }
 
+void Arena::addObstacle(const std::pair<int,int> &position) {
+    obstacles.push_back(position);
+}
+
 const bool Arena::ifHome(const std::pair<int,int> &position, const bool player) {
     //If player 1's unit
     if(player) {

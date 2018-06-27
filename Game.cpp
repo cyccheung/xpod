@@ -80,6 +80,10 @@ void Game::printBoard() {
     }
 }
 
+void Game::addObstacle(const std::pair<int,int> &position) {
+    arena.addObstacle(position);
+}
+
 Player* Game::getPlayer(const int playerNumber) {
     if(playerNumber == 1) {
         return &player1;
@@ -458,23 +462,39 @@ void Game::pushUnit(Unit* unitPtr, std::vector<std::pair<int,int> > path, Unit* 
         }
         //If there is a unit in the way
         else if(unitOnSquare(path.at(i))) {
+            //Find position of unit at the end of push
+            std::pair<int,int> lastUnitPosition = std::make_pair(path.at(i).first, path.at(i).second);
+            std::pair<int,int> lastUnitDestination = std::make_pair(lastUnitPosition.first + rowDiff, lastUnitPosition.second + colDiff);
+            //Loop through all the units in the row to find the position of the unit at the end of the row being pushed
+            //Note: First condition checks if there is a unit at the next position and second condition checks if there is an obstacle in the way of a non flying unit. If there is an obstacle with a flying unit on it and a non flying unit next to it, the flying unit will not be affected by the push
+            //std::cout << "1\n";
             //See if the row of units is movable
             bool movable = true;
-            //Start variable at where unit being directly pushed would be if there was nothing in the way
-            std::pair<int,int> tempPushedUnitPosition = pushedUnitPosition;
-            //Loop through all the units in the row to find the position of the unit at the end
-            while(unitOnSquare(tempPushedUnitPosition)) {
-                //Increment tempPushedUnitPosition to next position
-                tempPushedUnitPosition.first += rowDiff;
-                tempPushedUnitPosition.second += colDiff;
+            while(unitOnSquare(lastUnitPosition)) {
+                //std::cout << "2\n";
+                if(pushable(getUnitAtPosition(lastUnitPosition), lastUnitDestination)) {
+                    //Increment positions to next position
+                    lastUnitPosition.first += rowDiff;
+                    lastUnitPosition.second += colDiff;
+                    lastUnitDestination.first += rowDiff;
+                    lastUnitDestination.second += colDiff;
+                    //std::cout << "3\n";
+                }
+                else {
+                    movable = false;
+                    break;
+                }
             }
-            //Calculate where unit being pushed would be pushed to
-            std::pair<int,int> lastUnitPosition = std::make_pair(tempPushedUnitPosition.first - rowDiff, tempPushedUnitPosition.second - colDiff);
-            //If unit being pushed cannot be pushed further (edge of arena or obstacle for non flying units)
-            if(!validSquare(getUnitAtPosition(lastUnitPosition), tempPushedUnitPosition)) {
-                movable = false;
+            lastUnitPosition.first -= rowDiff;
+            lastUnitPosition.second -= colDiff;
+            lastUnitDestination.first -= rowDiff;
+            lastUnitDestination.second -= colDiff;
+
+
+            //If last unit cannot be pushed further
+            //if(!pushable(getUnitAtPosition(lastUnitPosition), lastUnitDestination)) {
                 //std::cout << "Here\n";
-            }
+            //}
             //If row is movable, move entire row
             if(movable) {
                 //std::cout << "Second case: " << unitPtr->getName() << "\n";
@@ -666,6 +686,25 @@ const bool Game::validPath(Unit* unitPtr, const std::vector<std::pair<int,int> >
     }
     //If nothing returned false, return true
     return true;
+}
+
+const bool Game::pushable(Unit* unitPtr, const std::pair<int,int> &position) {
+    //std::cout << "4\n";
+    //If unit flies
+    if(unitPtr->getMovement().at(2) != 0) {
+        //Can be pushed anywhere on the arena
+        if(arena.inArena(position)) {
+            return true;
+        }
+    }
+    //If unit does not fly
+    else {
+        //Can be pushed onto empty square on arena
+        if(arena.openSquare(position) && arena.inArena(position)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 Unit* Game::getUnitAtPosition(std::pair<int,int> position) {
