@@ -156,6 +156,9 @@ public:
     */
     const void printInfo() const;
 
+    //Print info without position
+    const void printAbilities() const;
+
     //Returns unit's name
     const std::string getName() const;
 
@@ -1269,7 +1272,7 @@ public:
             : Unit("Wing Raider", 3, 2, 3, 1, 0) {
                 std::vector<int> tempMove{0,0,2,0};
                 setMove(tempMove);
-                std::vector<int> tempBricks{1,34,11,17,17,13};
+                std::vector<int> tempBricks{1,34,38,17,17,13};
                 setBricks(tempBricks);
                 std::pair<int, int> tempDecon = std::make_pair(1,1);
                 setDecon(tempDecon);

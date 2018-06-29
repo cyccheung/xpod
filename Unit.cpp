@@ -10,8 +10,16 @@ Unit.cpp contains the implementations for the Unit functions.
 //Implementations for non virtual functions in Unit.h
 const void Unit::printInfo() const {
     std::cout << name << " Level " << level << ":\n";
-    std::cout << getMove() << ", " << getAbility() << "\n";
+    std::cout << getMove() << getAbility() << "\n";
     std::cout << "Position: " << position.first << ", " << position.second << "\n";
+    if(frozen) {
+        std::cout << "Frozen\n";
+    }
+}
+
+const void Unit::printAbilities() const {
+    std::cout << name << " Level " << level << ":\n";
+    std::cout << getMove() << getAbility() << "\n";
     if(frozen) {
         std::cout << "Frozen\n";
     }
@@ -25,16 +33,16 @@ const std::string Unit::getMove() const {
     //Nothing complicated here, just lots of formatting
     for(int i = 0; i < (int)movement.size(); ++i) {
         if(i == 0 && (movement.at(i) != 0)) {
-            return "move " + std::to_string(movement.at(i));
+            return "move " + std::to_string(movement.at(i)) + ", ";
         }
         else if(i == 1 && (movement.at(i) != 0)) {
-            return "jump " + std::to_string(movement.at(i));
+            return "jump " + std::to_string(movement.at(i)) + ", ";
         }
         else if(i == 2 && (movement.at(i) != 0)) {
-            return "fly " + std::to_string(movement.at(i));
+            return "fly " + std::to_string(movement.at(i)) + ", ";
         }
         else if(i == 3 && (movement.at(i) != 0)) {
-            return "push " + std::to_string(movement.at(i));
+            return "push " + std::to_string(movement.at(i)) + ", ";
         }
     }
     return "";
@@ -71,15 +79,15 @@ const int Unit::getMaxLevel() const {
 
 const std::string Unit::getAbility() const {
     //Nothing complicated here, just lots of formatting
-    std::string abilityOut;
+    std::string abilityOut = "";
     if(decon.first > 0) {
-        abilityOut += "decon";
+        abilityOut += "decon ";
     }
     if(decon.first > 1) {
-        abilityOut += "+1";
+        abilityOut += "+1 ";
     }
     if(decon.second > 1) {
-        abilityOut += " R";
+        abilityOut += "R";
         abilityOut += std::to_string(decon.second);
         abilityOut += " ";
     }
@@ -95,13 +103,16 @@ const std::string Unit::getAbility() const {
                 abilityOut += "eat";
             }
             else if(i == 3) {
-                abilityOut += "web";
+                abilityOut += "scare";
             }
             else if(i == 4) {
-                abilityOut += "scare";
+                abilityOut += "web";
             }
             abilityOut += " ";
         }
+    }
+    if(abilityOut == "" && getMoveMagnitude() == 0) {
+        abilityOut += "None";
     }
     return abilityOut;
 }
