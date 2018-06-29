@@ -156,7 +156,7 @@ void Player::printInactive() const {
     std::cout << "Inactive units:\n";
     for(int i = 0; i < (int)inactiveUnits.size(); ++i) {
         std::cout << "[" << i << "]\n";
-        inactiveUnits.at(i)->printInfo();
+        inactiveUnits.at(i)->printAbilities();
     }
 }
 
@@ -212,7 +212,7 @@ void Player::printPlanSheet() {
             std::cout << "*";
         }
         std::cout << "[" << i << "] ";
-        pod.getPlanSheet().at(i).printInfo();
+        pod.getPlanSheet().at(i).printAbilities();
         std::cout << "\n";
     }
 }
