@@ -564,8 +564,8 @@ Pod::Pod(const std::string nameIn) {
         inventory.push_back(1);
         inventory.push_back(0);
         inventory.push_back(0); //60
-        inventory.push_back(3);
         inventory.push_back(0);
+        inventory.push_back(3);
         inventory.push_back(0);
         inventory.push_back(1);
         inventory.push_back(1); //65
