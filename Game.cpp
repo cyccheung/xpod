@@ -418,7 +418,36 @@ void Game::unitMovementActions(Unit* unitPtr) {
         //path.push_back(tempPosition);
         //++counter;
     //}
-    if(unitPtr->getMovement().at(3) != 0) {
+    if(unitPtr->moreMove()) {
+        std::cout << unitPtr->getName() << " has more than one movement ability, choose one to use\n";
+        for(int i = 0; i < unitPtr->getMovement().size(); ++i) {
+            if(unitPtr->getMovement().at(i) != 0) {
+                std::cout << "[" << i << "]: ";
+                if(i == 0) {
+                    std::cout << "move ";
+                }
+                else if(i == 1) {
+                    std::cout << "jump ";
+                }
+                else if(i == 2) {
+                    std::cout << "fly ";
+                }
+                else if(i == 3) {
+                    std::cout << "push ";
+                }
+                std::cout << unitPtr->getMovement().at(i) << "\n";
+            }
+        }
+        int moveChoice;
+        std::cin >> moveChoice;
+        if(moveChoice == 3) {
+            pushUnit(unitPtr, path, unitPtr);
+        }
+        else {
+            moveUnit(unitPtr, path);
+        }
+    }
+    else if(unitPtr->getMovement().at(3) != 0) {
         pushUnit(unitPtr, path, unitPtr);
     }
     else {

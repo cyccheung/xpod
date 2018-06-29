@@ -171,6 +171,9 @@ public:
     //Returns unit's movement vector
     const std::vector<int> getMovement() const;
 
+    //Returns true if unit has more than one way of moving (Thunder Dragon and Porpoise)
+    const bool moreMove() const;
+
     //Set unit's move ability
     void setMove(const std::vector<int> &movementIn);
 

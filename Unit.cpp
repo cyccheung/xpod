@@ -49,7 +49,7 @@ const std::string Unit::getMove() const {
 }
 
 const int Unit::getMoveMagnitude() const {
-    for(int i = 0; i < 4; ++i) {
+    for(int i = 0; i < (int)movement.size(); ++i) {
         if(movement.at(i) != 0) {
             return movement.at(i);
         }
@@ -59,6 +59,19 @@ const int Unit::getMoveMagnitude() const {
 
 const std::vector<int> Unit::getMovement() const {
     return movement;
+}
+
+const bool Unit::moreMove() const {
+    int count = 0;
+    for(int i = 0; i < (int)movement.size(); ++i) {
+        if(movement.at(i) != 0) {
+            ++count;
+        }
+    }
+    if(count > 1) {
+        return true;
+    }
+    return false;
 }
 
 void Unit::setMove(const std::vector<int> &movementIn) {
