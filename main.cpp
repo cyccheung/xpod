@@ -101,7 +101,14 @@ int main() {
                 //Ask for index of unit to place
                 cout << "Enter index of unit to place:";
                 cin >> choice;
-                cout << "Enter a position along your home row to place unit:";
+                cout << "Enter a position along your home row ";
+                if(game.getActivePlayer() == game.getPlayer(1)) {
+                    cout << "(0 x) ";
+                }
+                else {
+                    cout << "(" << game.getArenaSize().first - 1 << " x) ";
+                }
+                cout << "to place unit:";
                 pair<int,int> placeChoice = make_pair(-1,-1);
                 //TODO: Check that position input is valid. No other units and in own home row
                 cin >> placeChoice.first >> placeChoice.second;
