@@ -44,9 +44,7 @@ public:
     void printLine();
 
     //Function to get size of arena
-    const std::pair<int,int> getArenaSize() {
-        return std::make_pair(arena.getRows(), arena.getColumns());
-    }
+    const std::pair<int,int> getArenaSize();
 
     //Adds obstacle to arena at input position
     void addObstacle(const std::pair<int,int> &position);

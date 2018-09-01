@@ -85,6 +85,10 @@ void Game::printLine() {
     std::cout << "------------------------------------------------\n";
 }
 
+const std::pair<int,int> Game::getArenaSize() {
+    return std::make_pair(arena.getRows(), arena.getColumns());
+}
+
 void Game::addObstacle(const std::pair<int,int> &position) {
     arena.addObstacle(position);
 }
