@@ -2603,7 +2603,7 @@ public:
             //<move, jump, fly, push>
             std::vector<int> tempMove{1,0,0,0};
             setMove(tempMove);
-            std::vector<int> tempBricks{14,20,36,43};
+            std::vector<int> tempBricks{14,18,36,43};
             setBricks(tempBricks);
             std::pair<int, int> tempDecon = std::make_pair(0,0);
             setDecon(tempDecon);
@@ -6099,6 +6099,100 @@ public:
     }
 private:
 };
+
+class WebFlinger : public Unit {
+public:
+    //Constructor creates unit of highest level
+    WebFlinger()
+        : Unit("Web Flinger", 3, 12, 5, 8, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{3,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{50,50,58,58,48,48,56,56,41,41,46,46,2,9,36,61,61,17,17,14,14,41,41,55,55};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,false,false,true};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::vector<bool> tempAbility{false,false,false,false,false};
+            setAbility(tempAbility);
+        }
+        else if(getLevel() == 2) {
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+        }
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+            std::vector<bool> tempAbility{false,false,false,false,true};
+            setAbility(tempAbility);
+        }
+        else if(getLevel() == 3) {
+            std::vector<int> tempMove{3,0,0,0};
+            setMove(tempMove);
+        }
+    }
+private:
+};
+
+
+class WolfSpider : public Unit {
+public:
+    //Constructor creates unit of highest level
+    WolfSpider()
+        : Unit("Wolf Spider", 3, 7, 6, 2, 0) {
+            //<move, jump, fly, push>
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+            std::vector<int> tempBricks{44,46,46,56,56,48,48,58,58,50,50,41,41,41,41};
+            setBricks(tempBricks);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
+            //<Repair, Carry, Eat, Scare, Web>
+            std::vector<bool> tempAbility{false,false,false,false,true};
+            setAbility(tempAbility);
+        }
+
+    //Deconstructs this unit
+    void getDecon() {
+        setLevel(getLevel() - 1);
+        if(getLevel() == 1) {
+            std::vector<int> tempMove{0,0,0,0};
+            setMove(tempMove);
+            std::vector<bool> tempAbility{false,false,false,false,false};
+            setAbility(tempAbility);
+        }
+        else if(getLevel() == 2) {}
+    }
+
+    //Repairs this unit
+    void getRepair() {
+        setLevel(getLevel() + 1);
+        if(getLevel() == 2) {
+            std::vector<int> tempMove{2,0,0,0};
+            setMove(tempMove);
+            std::vector<bool> tempAbility{false,false,false,false,true};
+            setAbility(tempAbility);
+        }
+        else if(getLevel() == 3) {}
+    }
+private:
+};
+
 //----------------------------Aqua Unit Declarations-------------------------------------
 class ElectricEel : public Unit {
 public:
@@ -6436,7 +6530,7 @@ public:
             //<move, jump, fly, push>
             std::vector<int> tempMove{1,0,0,0};
             setMove(tempMove);
-            std::vector<int> tempBricks{1,28,46,46,52,52,29,29,6,6,4,4};
+            std::vector<int> tempBricks{1,28,46,46,52,52,29,29,6,6,44,44};
             setBricks(tempBricks);
             std::pair<int, int> tempDecon = std::make_pair(1,1);
             setDecon(tempDecon);

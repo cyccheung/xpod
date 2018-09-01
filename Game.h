@@ -39,6 +39,10 @@ public:
     //Function to display board with units
     void printBoard();
 
+    //Function to print line of dashes between moves
+    //Prints line to separate moves, makes it easier for player to see
+    void printLine();
+
     //Adds obstacle to arena at input position
     void addObstacle(const std::pair<int,int> &position);
 
@@ -46,7 +50,7 @@ public:
     Player* getPlayer(const int playerNumber);
 
     //Function to print out starter kits, get player's choice, build appropriate units
-    void starterKit(Player &player);
+    void starterKit(Player* playerPtr);
 
     //Function to get player's unit choice for turn
     //void selectUnit();

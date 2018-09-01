@@ -564,8 +564,8 @@ Pod::Pod(const std::string nameIn) {
         inventory.push_back(1);
         inventory.push_back(0);
         inventory.push_back(0); //60
-        inventory.push_back(0);
         inventory.push_back(3);
+        inventory.push_back(2);
         inventory.push_back(0);
         inventory.push_back(1);
         inventory.push_back(1); //65
@@ -645,7 +645,7 @@ Pod::Pod(const std::string nameIn) {
         inventory.push_back(2);
         inventory.push_back(0); //20
         inventory.push_back(0);
-        inventory.push_back(1);
+        inventory.push_back(2);
         inventory.push_back(1);
         inventory.push_back(0);
         inventory.push_back(0); //25
@@ -657,7 +657,7 @@ Pod::Pod(const std::string nameIn) {
         inventory.push_back(0);
         inventory.push_back(0);
         inventory.push_back(0);
-        inventory.push_back(1);
+        inventory.push_back(2);
         inventory.push_back(0); //35
         inventory.push_back(2);
         inventory.push_back(0);
@@ -730,6 +730,10 @@ Pod::Pod(const std::string nameIn) {
         planSheet.push_back(unit14);
         VenemousNettler unit15;
         planSheet.push_back(unit15);
+        WebFlinger unit16;
+        planSheet.push_back(unit16);
+        WolfSpider unit17;
+        planSheet.push_back(unit17);
     }
     else if(nameIn == "Aqua") {
         inventory.push_back(1); //1
@@ -869,6 +873,7 @@ void Pod::addBrick(const int brickIndex) {
 }
 
 void Pod::removeBrick(const int brickIndex) {
+    std::cout << brickIndex << '\n';
     assert(inventory.at(brickIndex) > 0);
     --inventory.at(brickIndex);
 }

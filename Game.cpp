@@ -80,6 +80,11 @@ void Game::printBoard() {
     }
 }
 
+//Prints line to separate moves, makes it easier for player to see
+void Game::printLine() {
+    std::cout << "------------------------------------------------\n";
+}
+
 void Game::addObstacle(const std::pair<int,int> &position) {
     arena.addObstacle(position);
 }
@@ -90,213 +95,212 @@ Player* Game::getPlayer(const int playerNumber) {
     }
     return &player2;
 }
-/*
-void Game::starterKit(Player &player) {
+
+void Game::starterKit(Player* playerPtr) {
     std::cout << "Starting Options:\n";
     int choice;
-    if(player.getPod().getName() == "Aero") {
+    if(playerPtr->getPod()->getName() == "Aero") {
         std::cout << "Option 1:\n" << "Copter Raider, Jump Jet, Rescue Jet\n";
         std::cout << "Option 2:\n" << "MiniCopter, Jet Raider, Rescue Jet\n";
         std::cout << "Option 3:\n" << "Jet Raider, Glider Medic, Interceptor\n";
         std::cout << "Choice: ";
         std::cin >> choice;
-        //TODO: Change string input to int input after filling out plansheet
         if(choice == 1) {
-            player.buildUnit("CopterRaider");
-            player.buildUnit("JumpJet");
-            player.buildUnit("RescueJet");
+            playerPtr->buildUnit(3);
+            playerPtr->buildUnit(15);
+            playerPtr->buildUnit(19);
         }
         else if(choice == 2) {
-            player.buildUnit("MiniCopter");
-            player.buildUnit("JumpJet");
-            player.buildUnit("RescueJet");
+            playerPtr->buildUnit(16);
+            playerPtr->buildUnit(15);
+            playerPtr->buildUnit(19);
         }
         else if(choice == 3) {
-            player.buildUnit("JetRaider");
-            player.buildUnit("GliderMedic");
-            player.buildUnit("Interceptor");
+            playerPtr->buildUnit(14);
+            playerPtr->buildUnit(6);
+            playerPtr->buildUnit(11);
         }
         //Assume player will enter valid choice every time, will never have to come here
         else {
             std::cout << "Invalid Choice\n";
         }
     }
-    else if(player.getPod().getName() == "Auto") {
+    else if(playerPtr->getPod()->getName() == "Auto") {
         std::cout << "Option 1:\n" << "Speedster, Forklift, Basher\n";
         std::cout << "Option 2:\n" << "Spike, Pushabout, ArmoredSled\n";
         std::cout << "Option 3:\n" << "Rollabout, Rollabout, Basher\n";
         std::cout << "Choice: ";
         std::cin >> choice;
         if(choice == 1) {
-            player.buildUnit("Speedster");
-            player.buildUnit("Forklift");
-            player.buildUnit("Basher");
+            playerPtr->buildUnit(20);
+            playerPtr->buildUnit(9);
+            playerPtr->buildUnit(2);
         }
         else if(choice == 2) {
-            player.buildUnit("Spike");
-            player.buildUnit("Pushabout");
-            player.buildUnit("ArmoredSled");
+            playerPtr->buildUnit(21);
+            playerPtr->buildUnit(16);
+            playerPtr->buildUnit(1);
         }
         else if(choice == 3) {
-            player.buildUnit("Rollabout");
-            player.buildUnit("Rollabout");
-            player.buildUnit("Basher");
+            playerPtr->buildUnit(18);
+            playerPtr->buildUnit(18);
+            playerPtr->buildUnit(2);
         }
         //Assume player will enter valid choice every time, will never have to come here
         else {
             std::cout << "Invalid Choice\n";
         }
     }
-    else if(player.getPod().getName() == "Robo") {
+    else if(playerPtr->getPod()->getName() == "Robo") {
         std::cout << "Option 1:\n" << "AlphaBot, ExtendoBot, Fixit\n";
         std::cout << "Option 2:\n" << "JumpBot, ExtendoBot, Patroller\n";
         std::cout << "Option 3:\n" << "BrainBot, Patroller, Sparks\n";
         std::cout << "Choice: ";
         std::cin >> choice;
         if(choice == 1) {
-            player.buildUnit("AlphaBot");
-            player.buildUnit("ExtendoBot");
-            player.buildUnit("Fixit");
+            playerPtr->buildUnit(0);
+            playerPtr->buildUnit(6);
+            playerPtr->buildUnit(7);
         }
         else if(choice == 2) {
-            player.buildUnit("JumpBot");
-            player.buildUnit("ExtendoBot");
-            player.buildUnit("Patroller");
+            playerPtr->buildUnit(10);
+            playerPtr->buildUnit(6);
+            playerPtr->buildUnit(18);
         }
         else if(choice == 3) {
-            player.buildUnit("BrainBot");
-            player.buildUnit("Patroller");
-            player.buildUnit("Sparks");
+            playerPtr->buildUnit(2);
+            playerPtr->buildUnit(18);
+            playerPtr->buildUnit(21);
         }
         //Assume player will enter valid choice every time, will never have to come here
         else {
             std::cout << "Invalid Choice\n";
         }
     }
-    else if(player.getPod().getName() == "Wild") {
+    else if(playerPtr->getPod()->getName() == "Wild") {
         std::cout << "Option 1:\n" << "Gorilla, Moth, Stinging Ant\n";
         std::cout << "Option 2:\n" << "King Crab, Moth, Mantis\n";
         std::cout << "Option 3:\n" << "Rattler, Rattler, Mantis\n";
         std::cout << "Choice: ";
         std::cin >> choice;
         if(choice == 1) {
-            player.buildUnit("Gorilla");
-            player.buildUnit("Moth");
-            player.buildUnit("StingingAnt");
+            playerPtr->buildUnit(8);
+            playerPtr->buildUnit(14);
+            playerPtr->buildUnit(19);
         }
         else if(choice == 2) {
-            player.buildUnit("KingCrab");
-            player.buildUnit("Moth");
-            player.buildUnit("Mantis");
+            playerPtr->buildUnit(10);
+            playerPtr->buildUnit(14);
+            playerPtr->buildUnit(12);
         }
         else if(choice == 3) {
-            player.buildUnit("Rattler");
-            player.buildUnit("Rattler");
-            player.buildUnit("Mantis");
+            playerPtr->buildUnit(16);
+            playerPtr->buildUnit(16);
+            playerPtr->buildUnit(12);
         }
         //Assume player will enter valid choice every time, will never have to come here
         else {
             std::cout << "Invalid Choice\n";
         }
     }
-    else if(player.getPod().getName() == "Dragon") {
+    else if(playerPtr->getPod()->getName() == "Dragon") {
         std::cout << "Option 1:\n" << "Land Dragon, Cave Beetle, Young Hatchling\n";
         std::cout << "Option 2:\n" << "Storm Dragon, Cave Beetle, Dragon Slug\n";
-        std::cout << "Option 3:\n" << "Land Dragon, Cave Dweller, Young Hatchling\n";
+        std::cout << "Option 3:\n" << "Land Dragon, Crawling, Young Hatchling\n";
         std::cout << "Choice: ";
         std::cin >> choice;
         if(choice == 1) {
-            player.buildUnit("LandDragon");
-            player.buildUnit("CaveBeetle");
-            player.buildUnit("YoungHatchling");
+            playerPtr->buildUnit(9);
+            playerPtr->buildUnit(0);
+            playerPtr->buildUnit(15);
         }
         else if(choice == 2) {
-            player.buildUnit("StormDragon");
-            player.buildUnit("CaveBeetle");
-            player.buildUnit("DragonSlug");
+            playerPtr->buildUnit(12);
+            playerPtr->buildUnit(0);
+            playerPtr->buildUnit(5);
         }
         else if(choice == 3) {
-            player.buildUnit("LandDragon");
-            player.buildUnit("CaveDweller");
-            player.buildUnit("YoungHatchling");
+            playerPtr->buildUnit(9);
+            playerPtr->buildUnit(1);
+            playerPtr->buildUnit(15);
         }
         //Assume player will enter valid choice every time, will never have to come here
         else {
             std::cout << "Invalid Choice\n";
         }
     }
-    else if(player.getPod().getName() == "Monster") {
+    else if(playerPtr->getPod()->getName() == "Monster") {
         std::cout << "Option 1:\n" << "Frightful, Dizzy, Gremlin\n";
         std::cout << "Option 2:\n" << "Slither, It, Creepy Crawler\n";
         std::cout << "Option 3:\n" << "It, Bucky, Gremlin\n";
         std::cout << "Choice: ";
         std::cin >> choice;
         if(choice == 1) {
-            player.buildUnit("Frightful");
-            player.buildUnit("Dizzy");
-            player.buildUnit("Gremlin");
+            playerPtr->buildUnit(7);
+            playerPtr->buildUnit(3);
+            playerPtr->buildUnit(8);
         }
         else if(choice == 2) {
-            player.buildUnit("Slither");
-            player.buildUnit("It");
-            player.buildUnit("CreepyCrawler");
+            playerPtr->buildUnit(19);
+            playerPtr->buildUnit(14);
+            playerPtr->buildUnit(2);
         }
         else if(choice == 3) {
-            player.buildUnit("It");
-            player.buildUnit("Bucky");
-            player.buildUnit("Gremlin");
+            playerPtr->buildUnit(14);
+            playerPtr->buildUnit(1);
+            playerPtr->buildUnit(8);
         }
         //Assume player will enter valid choice every time, will never have to come here
         else {
             std::cout << "Invalid Choice\n";
         }
     }
-    else if(player.getPod().getName() == "Arachno") {
-        std::cout << "Option 1:\n" << "Wolfspider, Venomous Nettler, Tickler\n";
+    else if(playerPtr->getPod()->getName() == "Arachno") {
+        std::cout << "Option 1:\n" << "Wolf Spider, Venomous Nettler, Tickler\n";
         std::cout << "Option 2:\n" << "Uncle Longlegs, Venomous Nettler, Bugling\n";
-        std::cout << "Option 3:\n" << "Webslinger, Cricket, Bugling\n";
+        std::cout << "Option 3:\n" << "Web Flinger, Cricket, Bugling\n";
         std::cout << "Choice: ";
         std::cin >> choice;
         if(choice == 1) {
-            player.buildUnit("Wolfspider");
-            player.buildUnit("VenomousNettler");
-            player.buildUnit("Tickler");
+            playerPtr->buildUnit(16);
+            playerPtr->buildUnit(14);
+            playerPtr->buildUnit(12);
         }
         else if(choice == 2) {
-            player.buildUnit("UncleLonglegs");
-            player.buildUnit("VenomousNettler");
-            player.buildUnit("Bugling");
+            playerPtr->buildUnit(13);
+            playerPtr->buildUnit(14);
+            playerPtr->buildUnit(2);
         }
         else if(choice == 3) {
-            player.buildUnit("Webslinger");
-            player.buildUnit("Cricket");
-            player.buildUnit("Bugling");
+            playerPtr->buildUnit(15);
+            playerPtr->buildUnit(3);
+            playerPtr->buildUnit(2);
         }
         //Assume player will enter valid choice every time, will never have to come here
         else {
             std::cout << "Invalid Choice\n";
         }
     }
-    else if(player.getPod().getName() == "Aqua") {
+    else if(playerPtr->getPod()->getName() == "Aqua") {
         std::cout << "Option 1:\n" << "Hammerhead, Piranha, Shrimp\n";
         std::cout << "Option 2:\n" << "Sea Tortoise, Man-o-War, Shrimp\n";
         std::cout << "Option 3:\n" << "Stingray, Piranha, Flying Fish\n";
         std::cout << "Choice: ";
         std::cin >> choice;
         if(choice == 1) {
-            player.buildUnit("Hammerhead");
-            player.buildUnit("Piranha");
-            player.buildUnit("Shrimp");
+            playerPtr->buildUnit(5);
+            playerPtr->buildUnit(9);
+            playerPtr->buildUnit(16);
         }
         else if(choice == 2) {
-            player.buildUnit("SeaTortoise");
-            player.buildUnit("ManoWar");
-            player.buildUnit("Shrimp");
+            playerPtr->buildUnit(18);
+            playerPtr->buildUnit(8);
+            playerPtr->buildUnit(16);
         }
         else if(choice == 3) {
-            player.buildUnit("Stingray");
-            player.buildUnit("Piranha");
-            player.buildUnit("FlyingFish");
+            playerPtr->buildUnit(17);
+            playerPtr->buildUnit(9);
+            playerPtr->buildUnit(2);
         }
         //Assume player will enter valid choice every time, will never have to come here
         else {
@@ -304,22 +308,7 @@ void Game::starterKit(Player &player) {
         }
     }
 }
-*/
-/*
-void Game::selectUnit(const Player &player, int &choice) {
-    for(int i = 0; i < (int)player.getUnits().size(); ++i) {
-        //Prints out unit name
-        std::cout << player.getUnits().at(i).getName();
-        //If there are more than one of a type of unit, print out positions as well
-        if(player.duplicateUnits(player.getUnits().at(i))) {
-            std::cout << "(" << player.getUnits().at(i).getPosition().first << ", "
-            << player.getUnits().at(i).getPosition().second << ")";
-        }
-        std::cout << " [" << i << "]\n";
-    }
-    std::cin >> choice;
-}
-*/
+
 void Game::printUnitActions(Unit* unitPtr) {
     //Prints unit's abilities
     unitPtr->printInfo();
@@ -420,7 +409,7 @@ void Game::unitMovementActions(Unit* unitPtr) {
     //}
     if(unitPtr->moreMove()) {
         std::cout << unitPtr->getName() << " has more than one movement ability, choose one to use\n";
-        for(int i = 0; i < unitPtr->getMovement().size(); ++i) {
+        for(int i = 0; i < (int)unitPtr->getMovement().size(); ++i) {
             if(unitPtr->getMovement().at(i) != 0) {
                 std::cout << "[" << i << "]: ";
                 if(i == 0) {

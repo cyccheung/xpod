@@ -37,8 +37,8 @@ int main() {
     */
     string player1Name = "Andy";
     string player2Name = "Bob";
-    string player1Pod = "Aero";
-    string player2Pod = "Aero";
+    string player1Pod = "Arachno";
+    string player2Pod = "Aqua";
     int rowIn = 9;
     int colIn = 6;
 
@@ -46,16 +46,18 @@ int main() {
     Game game(player1Name, player1Pod, player2Name, player2Pod, rowIn, colIn);
 
     cout << "Game start:\n\n";
-    /*
+
     //Get player's choices for starter kit
+    game.printLine();
     cout << "Player 1:\n";
     game.starterKit(game.getPlayer(1));
+    game.printLine();
     cout << "Player 2:\n";
     game.starterKit(game.getPlayer(2));
-    */
+
     //If no one has 3 points yet, keep playing
     while(game.playerWin() == 0) {
-        cout << "------------------------------------------------\n";
+        game.printLine();
         //Print out scores
         cout << game.getPlayer(1)->getName() << ": " << game.getScore(1) << " points\n";
         cout << game.getPlayer(2)->getName() << ": " << game.getScore(2) << " points\n";
@@ -70,7 +72,7 @@ int main() {
         int actionChoice;
         cin >> actionChoice;
         int choice;
-        cout << "------------------------------------------------\n";
+        game.printLine();
         switch(actionChoice) {
             case 1 : {
                 //Print out plansheet
@@ -117,7 +119,7 @@ int main() {
                 cout << "Enter index of unit to activate:";
                 int unitChoice;
                 cin >> unitChoice;
-                cout << "------------------------------------------------\n";
+                game.printLine();
                 while(game.getActivePlayer()->getUnit(unitChoice)->ifFrozen()) {
                     cout << game.getActivePlayer()->getUnit(unitChoice)->getName() << " is frozen, choose another unit\n";
                     cin >> unitChoice;

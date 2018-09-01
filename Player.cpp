@@ -653,6 +653,14 @@ void Player::buildUnit(const int index) {
             VenemousNettler* venemousnettler = new VenemousNettler;
             inactiveUnits.push_back(venemousnettler);
         }
+        else if(index == 15) {
+            WebFlinger* webflinger = new WebFlinger;
+            inactiveUnits.push_back(webflinger);
+        }
+        else if(index == 16) {
+            WolfSpider* wolfspider = new WolfSpider;
+            inactiveUnits.push_back(wolfspider);
+        }
     }
     else if(pod.getName() == "Aqua") {
         if(index == 0) {
