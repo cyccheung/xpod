@@ -37,8 +37,8 @@ int main() {
     */
     string player1Name = "Andy";
     string player2Name = "Bob";
-    string player1Pod = "Arachno";
-    string player2Pod = "Aqua";
+    string player1Pod = "Aero";
+    string player2Pod = "Robo";
     int rowIn = 9;
     int colIn = 6;
 

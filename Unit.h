@@ -437,6 +437,8 @@ public:
             setMove(tempMove);
             std::vector<bool> tempAbility{false,false,false,false,false};
             setAbility(tempAbility);
+            std::pair<int, int> tempDecon = std::make_pair(0,0);
+            setDecon(tempDecon);
         }
         else if(getLevel() == 2) {
             std::vector<int> tempMove{1,0,0,0};

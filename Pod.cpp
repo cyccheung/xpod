@@ -873,7 +873,6 @@ void Pod::addBrick(const int brickIndex) {
 }
 
 void Pod::removeBrick(const int brickIndex) {
-    std::cout << brickIndex << '\n';
     assert(inventory.at(brickIndex) > 0);
     --inventory.at(brickIndex);
 }
