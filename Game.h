@@ -43,6 +43,11 @@ public:
     //Prints line to separate moves, makes it easier for player to see
     void printLine();
 
+    //Function to get size of arena
+    const std::pair<int,int> getArenaSize() {
+        return std::make_pair(arena.getRows(), arena.getColumns());
+    }
+
     //Adds obstacle to arena at input position
     void addObstacle(const std::pair<int,int> &position);
 
