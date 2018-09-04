@@ -12,40 +12,62 @@ Default position for units is -1,-1. 0,0 is the bottom left square
 using namespace std;
 
 int main() {
-    /*
     //Get player's names and pods they want to play with
-    string player1Name;
-    string player2Name;
-    string player1Pod;
-    string player2Pod;
-    cout << "Player 1 Name: ";
-    cin >> player1Name;
-    cout << "Player 1 Pod: ";
-    cin >> player1Pod;
-    cout << "Player 2 Name: ";
-    cin >> player2Name;
-    cout << "Player 2 Pod: ";
-    cin >> player2Pod;
-
+    string player1Name = "";
+    string player2Name = "";
+    string player1Pod = "";
+    string player2Pod = "";
     //Get preferred arena size
-    int rowIn;
-    int colIn;
-    cout << "Arena Rows: ";
-    cin >> rowIn;
-    cout << "Arena Columns: ";
-    cin >> colIn;
-    */
-    string player1Name = "Andy";
-    string player2Name = "Bob";
-    string player1Pod = "Aero";
-    string player2Pod = "Robo";
-    int rowIn = 9;
-    int colIn = 6;
+    int rowIn = 0;
+    int colIn = 0;
+/*
+    //Make sure that player 1's name is not an empty string
+    while(player1Name == "") {
+        std::cout << "Player 1 Name: ";
+        std::cin >> player1Name;
+    }
+    //Make sure that player 1's pod choice is one of the 8 pods
+    while(player1Pod != "Aero" && player1Pod != "Auto" && player1Pod != "Robo" && player1Pod != "Wild" && player1Pod != "Dragon" &&
+        player1Pod != "Monster" && player1Pod != "Arachno" && player1Pod != "Aqua") {
+            std::cout << "Player 1 Pod: ";
+            std::cin >> player1Pod;
+    }
+    //Make sure that player 2's name is not an empty string or equal to player 1's name
+    while(player2Name == "" || player2Name == player1Name) {
+        std::cout << "Player 2 Name: ";
+        std::cin >> player2Name;
+    }
+    //Make sure that player 2's pod name is one of the 8 pods
+    while(player2Pod != "Aero" && player2Pod != "Auto" && player2Pod != "Robo" && player2Pod != "Wild" && player2Pod != "Dragon" &&
+        player2Pod != "Monster" && player2Pod != "Arachno" && player2Pod != "Aqua") {
+            std::cout << "Player 2 Pod: ";
+            std::cin >> player2Pod;
+    }
+
+
+    //Make sure rows is at least 9
+    while(rowIn < 9) {
+        cout << "Arena Rows (At least 9): ";
+        cin >> rowIn;
+    }
+    //Make sure columns is at least 6
+    while(colIn < 6) {
+        cout << "Arena Columns (At least 6): ";
+        cin >> colIn;
+    }
+*/
+
+    player1Name = "Andy";
+    player2Name = "Bob";
+    player1Pod = "Aero";
+    player2Pod = "Robo";
+    rowIn = 9;
+    colIn = 6;
 
     //Create Game object
     Game game(player1Name, player1Pod, player2Name, player2Pod, rowIn, colIn);
 
-    cout << "Game start:\n\n";
+    cout << "\nGame start:\n\n";
 
     //Get player's choices for starter kit
     game.printLine();
@@ -174,4 +196,8 @@ int main() {
     cout << "The winner is Player " << game.playerWin();
 
     return 0;
+}
+
+void CheckPlayerInput() {
+    cout << "Test\n";
 }

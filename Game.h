@@ -157,6 +157,9 @@ public:
     //Returns player's score
     const int getScore(const int playerIndex) const;
 
+    //-----------------Player input checks----------------------
+    void checkStarterKit(int &choice);
+
 private:
     Player player1;
     Player player2;

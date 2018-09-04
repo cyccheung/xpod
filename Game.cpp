@@ -102,13 +102,12 @@ Player* Game::getPlayer(const int playerNumber) {
 
 void Game::starterKit(Player* playerPtr) {
     std::cout << "Starting Options:\n";
-    int choice;
+    int choice = 0;
     if(playerPtr->getPod()->getName() == "Aero") {
         std::cout << "Option 1:\n" << "Copter Raider, Jump Jet, Rescue Jet\n";
         std::cout << "Option 2:\n" << "MiniCopter, Jet Raider, Rescue Jet\n";
         std::cout << "Option 3:\n" << "Jet Raider, Glider Medic, Interceptor\n";
-        std::cout << "Choice: ";
-        std::cin >> choice;
+        checkStarterKit(choice);
         if(choice == 1) {
             playerPtr->buildUnit(3);
             playerPtr->buildUnit(15);
@@ -133,8 +132,7 @@ void Game::starterKit(Player* playerPtr) {
         std::cout << "Option 1:\n" << "Speedster, Forklift, Basher\n";
         std::cout << "Option 2:\n" << "Spike, Pushabout, ArmoredSled\n";
         std::cout << "Option 3:\n" << "Rollabout, Rollabout, Basher\n";
-        std::cout << "Choice: ";
-        std::cin >> choice;
+        checkStarterKit(choice);
         if(choice == 1) {
             playerPtr->buildUnit(20);
             playerPtr->buildUnit(9);
@@ -159,8 +157,7 @@ void Game::starterKit(Player* playerPtr) {
         std::cout << "Option 1:\n" << "AlphaBot, ExtendoBot, Fixit\n";
         std::cout << "Option 2:\n" << "JumpBot, ExtendoBot, Patroller\n";
         std::cout << "Option 3:\n" << "BrainBot, Patroller, Sparks\n";
-        std::cout << "Choice: ";
-        std::cin >> choice;
+        checkStarterKit(choice);
         if(choice == 1) {
             playerPtr->buildUnit(0);
             playerPtr->buildUnit(6);
@@ -185,8 +182,7 @@ void Game::starterKit(Player* playerPtr) {
         std::cout << "Option 1:\n" << "Gorilla, Moth, Stinging Ant\n";
         std::cout << "Option 2:\n" << "King Crab, Moth, Mantis\n";
         std::cout << "Option 3:\n" << "Rattler, Rattler, Mantis\n";
-        std::cout << "Choice: ";
-        std::cin >> choice;
+        checkStarterKit(choice);
         if(choice == 1) {
             playerPtr->buildUnit(8);
             playerPtr->buildUnit(14);
@@ -211,8 +207,7 @@ void Game::starterKit(Player* playerPtr) {
         std::cout << "Option 1:\n" << "Land Dragon, Cave Beetle, Young Hatchling\n";
         std::cout << "Option 2:\n" << "Storm Dragon, Cave Beetle, Dragon Slug\n";
         std::cout << "Option 3:\n" << "Land Dragon, Crawling, Young Hatchling\n";
-        std::cout << "Choice: ";
-        std::cin >> choice;
+        checkStarterKit(choice);
         if(choice == 1) {
             playerPtr->buildUnit(9);
             playerPtr->buildUnit(0);
@@ -237,8 +232,7 @@ void Game::starterKit(Player* playerPtr) {
         std::cout << "Option 1:\n" << "Frightful, Dizzy, Gremlin\n";
         std::cout << "Option 2:\n" << "Slither, It, Creepy Crawler\n";
         std::cout << "Option 3:\n" << "It, Bucky, Gremlin\n";
-        std::cout << "Choice: ";
-        std::cin >> choice;
+        checkStarterKit(choice);
         if(choice == 1) {
             playerPtr->buildUnit(7);
             playerPtr->buildUnit(3);
@@ -263,8 +257,7 @@ void Game::starterKit(Player* playerPtr) {
         std::cout << "Option 1:\n" << "Wolf Spider, Venomous Nettler, Tickler\n";
         std::cout << "Option 2:\n" << "Uncle Longlegs, Venomous Nettler, Bugling\n";
         std::cout << "Option 3:\n" << "Web Flinger, Cricket, Bugling\n";
-        std::cout << "Choice: ";
-        std::cin >> choice;
+        checkStarterKit(choice);
         if(choice == 1) {
             playerPtr->buildUnit(16);
             playerPtr->buildUnit(14);
@@ -289,8 +282,7 @@ void Game::starterKit(Player* playerPtr) {
         std::cout << "Option 1:\n" << "Hammerhead, Piranha, Shrimp\n";
         std::cout << "Option 2:\n" << "Sea Tortoise, Man-o-War, Shrimp\n";
         std::cout << "Option 3:\n" << "Stingray, Piranha, Flying Fish\n";
-        std::cout << "Choice: ";
-        std::cin >> choice;
+        checkStarterKit(choice);
         if(choice == 1) {
             playerPtr->buildUnit(5);
             playerPtr->buildUnit(9);
@@ -959,4 +951,12 @@ const int Game::getScore(const int playerIndex) const {
         return player2Score;
     }
     return -1;
+}
+
+//-----------------Player input checks----------------------
+void Game::checkStarterKit(int &choice) {
+    while(choice != 1 && choice != 2 && choice != 3) {
+        std::cout << "Choice: ";
+        std::cin >> choice;
+    }
 }
