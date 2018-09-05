@@ -89,6 +89,9 @@ public:
     //Repair input unit once and use bricks from input player's pod, assumes enough bricks
     void repairUnit(Unit* unitPtr, Player* playerPtr);
 
+    //Checks for adjacent enemy units and scares all of them
+    void scareEnemies(Unit* unitPtr);
+
     //Freezes input unit
     void freezeUnit(Unit* unitPtr);
 
@@ -158,7 +161,23 @@ public:
     const int getScore(const int playerIndex) const;
 
     //-----------------Player input checks----------------------
+    //Checks that starter kit choice is valid
     void checkStarterKit(int &choice);
+
+    //Checks that action choice is valid
+    void checkActionChoice(int &choice);
+
+    //Checks if build index is valid
+    void checkBuildIndex(int &choice);
+
+    //Checks if place index is valid
+    void checkPlaceIndex(int &choice);
+
+    //Checks if place position is valid
+    void checkPlacePosition(std::pair<int,int> &placeChoice);
+
+    //Checks if index of unit to activate is valid. Checks if unit is frozen as well
+    void checkActivateIndex(int &unitChoice);
 
 private:
     Player player1;

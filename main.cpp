@@ -60,7 +60,7 @@ int main() {
     player1Name = "Andy";
     player2Name = "Bob";
     player1Pod = "Aero";
-    player2Pod = "Robo";
+    player2Pod = "Monster";
     rowIn = 9;
     colIn = 6;
 
@@ -89,28 +89,17 @@ int main() {
         game.getActivePlayer()->printActive();
         cout << "\n";
         game.getActivePlayer()->printInactive();
-        cout << "\nChoose one of the following actions:\n[1]: Build\n[2]: Place\n[3]: Activate\n[4]: Unfreeze\n[5]: Plansheet\n[6]: Board\n";
         //Variable to store player input
-        int actionChoice;
-        cin >> actionChoice;
-        int choice;
+        int actionChoice = -1;
+        game.checkActionChoice(actionChoice);
+        int choice = -1;
         game.printLine();
         switch(actionChoice) {
             case 1 : {
                 //Print out plansheet
                 game.getActivePlayer()->printPlanSheet();
                 //Ask for index of unit to build
-                cout << "Enter index of unit you want to build:";
-                cin >> choice;
-                //TODO: Check if input is valid
-                /*
-                while(choice < 0 && choice >= activePlayer->getPlanSheet().size()) {
-                    while(!enoughBricks(activePlayer->getPod().getPlanSheet().at(choice))) {
-                        cout << "Invalid input, please enter index of unit you want to build again:";
-                    }
-                    cout << "Invalid input, please enter index of unit you want to build again:";
-                }
-                */
+                game.checkBuildIndex(choice);
                 //Build unit
                 game.getActivePlayer()->buildUnit(choice);
                 //End of turn
@@ -121,19 +110,9 @@ int main() {
                 //Print out inactive units
                 game.getActivePlayer()->printInactive();
                 //Ask for index of unit to place
-                cout << "Enter index of unit to place:";
-                cin >> choice;
-                cout << "Enter a position along your home row ";
-                if(game.getActivePlayer() == game.getPlayer(1)) {
-                    cout << "(0 x) ";
-                }
-                else {
-                    cout << "(" << game.getArenaSize().first - 1 << " x) ";
-                }
-                cout << "to place unit:";
+                game.checkPlaceIndex(choice);
                 pair<int,int> placeChoice = make_pair(-1,-1);
-                //TODO: Check that position input is valid. No other units and in own home row
-                cin >> placeChoice.first >> placeChoice.second;
+                game.checkPlacePosition(placeChoice);
                 //Place unit
                 game.getActivePlayer()->getInactiveUnit(choice)->setPosition(placeChoice);
                 game.getActivePlayer()->activateUnit(game.getActivePlayer()->getInactiveUnit(choice));
@@ -144,10 +123,8 @@ int main() {
             case 3 : {
                 //Print out active units
                 game.getActivePlayer()->printActive();
-                //Ask for index of unit to activate
-                cout << "Enter index of unit to activate:";
                 int unitChoice;
-                cin >> unitChoice;
+                game.checkActivateIndex(unitChoice);
                 game.printLine();
                 while(game.getActivePlayer()->getUnit(unitChoice)->ifFrozen()) {
                     cout << game.getActivePlayer()->getUnit(unitChoice)->getName() << " is frozen, choose another unit\n";
@@ -159,6 +136,8 @@ int main() {
                 //Enact actions
                 //game.enactUnitActions(game.getActivePlayer()->getUnits().at(unitChoice));
                 game.enactUnitActions(game.getActivePlayer()->getUnit(unitChoice));
+                //Check if chosen unit has scare and if it does, scare adjacent enemies
+                game.scareEnemies(game.getActivePlayer()->getUnit(unitChoice));
                 //End of turn
                 game.changeTurn();
                 break;

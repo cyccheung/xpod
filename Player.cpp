@@ -54,7 +54,6 @@ const std::string Player::getName() const {
     return name;
 }
 
-//TODO:
 void Player::buildUnit(const int index) {
     if(pod.getName() == "Aero") {
         if(index == 0) {

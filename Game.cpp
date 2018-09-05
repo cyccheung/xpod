@@ -2,10 +2,6 @@
 #include <cmath>
 
 void Game::printBoard() {
-    //const int rows = arena.getRows();
-    //const int cols = arena.getColumns();
-    //Create 2D array the size of arena
-    //char arenaArray[rows][cols];
     //Create 2D vector the size of arena
     std::vector<char> arenaRow;
     for(int i = 0; i < arena.getColumns(); ++i) {
@@ -16,19 +12,20 @@ void Game::printBoard() {
     for(int i = 0; i < arena.getRows(); ++i) {
         arenaArray.push_back(arenaRow);
     }
-
     //Fill in arena with home row
     for(int i = 0; i < arena.getColumns(); ++i) {
         arenaArray[0][i] = '-';
         arenaArray[arena.getRows() - 1][i] = '-';
     }
-
     char player2Index = 'A';
     //Fill in array with player units
     for(int i = 0; i < (int)player1.getUnits().size(); ++i) {
+        std::cout << player1.getUnit(i)->getPosition().first << "\n";
+        std::cout << player1.getUnit(i)->getPosition().second << "\n";
         //Fills in arena with unit indices starting at 1
         arenaArray.at(player1.getUnit(i)->getPosition().first).at(player1.getUnit(i)->getPosition().second) = (char)i + 1 + '0';
     }
+
     for(int i = 0; i < (int)player2.getUnits().size(); ++i) {
         //Fills in arena with unit indices starting at 'A'
         arenaArray[player2.getUnit(i)->getPosition().first][player2.getUnit(i)->getPosition().second] = player2Index;
@@ -40,9 +37,6 @@ void Game::printBoard() {
     for(int i = 0; i < (int)arena.getObstacles().size(); ++i) {
         arenaArray[arena.getObstacles().at(i).first][arena.getObstacles().at(i).second] = 'x';
     }
-
-
-
     //Print out arenaArray
     std::cout << "Player 1\n";
     //Print out list of player 1 active units on the arena with indices
@@ -332,7 +326,7 @@ void Game::unitSpecialActions(Unit* unitPtr) {
                     std::cout << "[2]: Eat\n";
                 }
             }
-            else if(i == 3) {   //Web
+            else if(i == 4) {   //Web
                 if(anyWithinRange(unitPtr, 2)) {
                     std::cout << "[3]: Web\n";
                 }
@@ -574,6 +568,26 @@ void Game::repairUnit(Unit* unitPtr, Player* playerPtr) {
     //Repairs unit
     unitPtr->getRepair();
     std::cout << unitPtr->getName() << " is repaired to level " << unitPtr->getLevel() << "\n";
+}
+
+void Game::scareEnemies(Unit* unitPtr) {
+    if(unitPtr->ifScare()) {
+        //Loop through enemy active units, if any are within range of 1, freeze them
+        if(activePlayer == &player2) {
+            for(int i = 0; i < (int)player1.getUnits().size(); ++i) {
+                if(ifWithinRange(unitPtr, player1.getUnit(i), 1) {
+                    freezeUnit(player1.getUnit(i));
+                }
+            }
+        }
+        else {
+            for(int i = 0; i < (int)player2.getUnits().size(); ++i) {
+                if(ifWithinRange(unitPtr, player2.getUnit(i), 1) {
+                    freezeUnit(player2.getUnit(i));
+                }
+            }
+        }
+    }
 }
 
 void Game::freezeUnit(Unit* unitPtr) {
@@ -958,5 +972,102 @@ void Game::checkStarterKit(int &choice) {
     while(choice != 1 && choice != 2 && choice != 3) {
         std::cout << "Choice: ";
         std::cin >> choice;
+    }
+}
+
+void Game::checkActionChoice(int &choice) {
+    while(choice != 0 && choice != 1 && choice != 2 && choice != 3 && choice != 4 && choice != 5 && choice != 6) {
+        std::cout << "\nChoose one of the following actions:\n[1]: Build\n[2]: Place\n[3]: Activate\n[4]: Unfreeze\n[5]: Plansheet\n[6]: Board\n";
+        std::cin >> choice;
+    }
+}
+
+void Game::checkBuildIndex(int &choice) {
+    bool insufficientBricks = true;
+    bool firstRun = true;
+    while(insufficientBricks) {
+        if(!firstRun) {
+            std::cout << "Insufficient bricks. ";
+            firstRun = true;
+            choice = -1;        //Reset choice to -1 to enter while loop that checks if choice is within range
+        }
+        //Makes sure choice is within range
+        while(choice < 0 || choice >= (int)(activePlayer->getPod()->getPlanSheet()).size()) {
+            if(firstRun) {
+                std::cout << "Enter index of unit you want to build: ";
+            }
+            else {
+                std::cout << "Index not within range. Enter index of unit you want to build: ";
+            }
+            firstRun = false;
+            std::cin >> choice;
+        }
+
+
+        insufficientBricks = !activePlayer->enoughBricks(*(activePlayer->getPod()->getPlanSheetUnit(choice)));
+    }
+}
+
+void Game::checkPlaceIndex(int &choice) {
+    bool firstTime = true;
+    while(choice < 0 || choice >= (int)activePlayer->getInactiveUnits().size()) {
+        if(firstTime) {
+            firstTime = false;
+            std::cout << "Enter index of unit to place: ";
+        }
+        else {
+            std::cout << "Invalid input. Enter index of unit to place: ";
+        }
+        std::cin >> choice;
+    }
+}
+
+void Game::checkPlacePosition(std::pair<int,int> &placeChoice) {
+    bool firstTime = true;
+    int homeRow = 0;
+    if(activePlayer == &player1) {
+        homeRow = 0;
+    }
+    else {
+        homeRow = arena.getRows() - 1;
+    }
+    while(unitOnSquare(placeChoice) || placeChoice.first != homeRow || placeChoice.second < 0 || placeChoice.second >= arena.getColumns()) {
+        if(!firstTime) {
+            std::cout << "Invalid input. ";
+        }
+        firstTime = false;
+        std::cout << "Enter a position along your home row ";
+        if(getActivePlayer() == getPlayer(1)) {
+            std::cout << "(0 x) ";
+        }
+        else {
+            std::cout << "(" << getArenaSize().first - 1 << " x) ";
+        }
+        std::cout << "to place unit: ";
+        std::cin >> placeChoice.first >> placeChoice.second;
+    }
+}
+
+void Game::checkActivateIndex(int &choice) {
+    bool frozen = true;
+    bool firstRun = true;
+    while(frozen) {
+        if(!firstRun) {
+            std::cout << "Unit selected is frozen. ";
+            firstRun = true;
+            choice = -1;        //Reset choice to -1 to enter while loop that checks if choice is within range
+        }
+        //Makes sure choice is within range
+        while(choice < 0 || choice >= (int)(activePlayer->getUnits().size())) {
+            if(firstRun) {
+                std::cout << "Enter index of unit you want to activate: ";
+            }
+            else {
+                std::cout << "Index not within range. Enter index of unit you want to activate: ";
+            }
+            firstRun = false;
+            std::cin >> choice;
+        }
+        frozen = activePlayer->getUnit(choice)->ifFrozen();
     }
 }
